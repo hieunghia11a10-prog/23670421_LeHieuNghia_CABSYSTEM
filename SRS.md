@@ -1462,3 +1462,40 @@ Chuỗi truy vết:
 | BR-10 | FR-11 | UC-09 | AC-09 |
 | BR-11 | FR-12 | UC-09 | AC-09 |
 | BR-12 | FR-07, FR-13 | UC-05, UC-10 | AC-05, AC-10 |
+
+# Bảng truy vết yêu cầu – CAB System MVP
+
+## 1. Mục đích
+
+Bảng truy vết yêu cầu được sử dụng để kiểm soát tính nhất quán và đầy đủ của dự án CAB System MVP.
+
+Bảng giúp theo dõi mối liên hệ giữa:
+
+**Business → Business Requirement (BR) → Functional Requirement (FR) → Use Case (UC) → Acceptance Criteria (AC)**
+
+Thông qua bảng truy vết, nhóm dự án có thể kiểm tra:
+
+- Mỗi nhu cầu nghiệp vụ có được chuyển thành Business Requirement hay không.
+- Mỗi Business Requirement có Functional Requirement tương ứng hay không.
+- Mỗi Functional Requirement có được triển khai thành Use Case hay không.
+- Mỗi Use Case có tiêu chí chấp nhận để xác định kết quả thực hiện hay không.
+- Phát hiện các yêu cầu bị thiếu, trùng lặp hoặc nằm ngoài phạm vi MVP.
+
+---
+
+## 2. Requirement Traceability Matrix
+
+| Business | Business Requirement | Functional Requirement | Use Case | Acceptance Criteria | Trạng thái |
+|---|---|---|---|---|---|
+| **B1. Doanh nghiệp cần quản lý tài khoản khách hàng** | **BR-01:** Cho phép khách hàng đăng ký tài khoản. | **FR-01:** Cho phép khách hàng nhập thông tin và đăng ký tài khoản. | **UC-01:** Đăng ký tài khoản khách hàng. | **AC-01:** Tạo tài khoản thành công khi thông tin hợp lệ; thông báo lỗi khi thông tin không hợp lệ hoặc tài khoản đã tồn tại. | Trong phạm vi MVP |
+| **B1. Doanh nghiệp cần quản lý tài khoản khách hàng** | **BR-02:** Cho phép khách hàng đăng nhập. | **FR-02:** Xác thực thông tin đăng nhập của khách hàng. | **UC-02:** Đăng nhập khách hàng. | **AC-02:** Cho phép truy cập khi thông tin chính xác; thông báo lỗi khi thông tin không chính xác. | Trong phạm vi MVP |
+| **B1. Doanh nghiệp cần quản lý tài khoản khách hàng** | **BR-03:** Cho phép khách hàng xem và cập nhật thông tin cá nhân. | **FR-03:** Cho phép khách hàng xem, chỉnh sửa và lưu thông tin cá nhân. | **UC-03:** Cập nhật thông tin khách hàng. | **AC-03:** Thông tin hợp lệ được lưu thành công và hiển thị thông tin đã cập nhật. | Trong phạm vi MVP |
+| **B2. Doanh nghiệp cần khách hàng tạo yêu cầu đặt xe** | **BR-04:** Cho phép khách hàng nhập điểm đón và điểm đến. | **FR-04:** Cho phép nhập và kiểm tra điểm đón, điểm đến. | **UC-04:** Đặt xe. | **AC-04:** Khách hàng phải nhập đầy đủ điểm đón và điểm đến trước khi gửi yêu cầu. | Trong phạm vi MVP |
+| **B2. Doanh nghiệp cần khách hàng tạo yêu cầu đặt xe** | **BR-05:** Cho phép khách hàng lựa chọn loại xe. | **FR-05:** Hiển thị danh sách loại xe và cho phép khách hàng lựa chọn. | **UC-04:** Đặt xe. | **AC-04:** Khách hàng có thể lựa chọn một loại xe trước khi gửi yêu cầu. | Trong phạm vi MVP |
+| **B2. Doanh nghiệp cần khách hàng tạo yêu cầu đặt xe** | **BR-06:** Cho phép khách hàng gửi yêu cầu đặt xe. | **FR-06:** Kiểm tra thông tin và tạo yêu cầu đặt xe. | **UC-04:** Đặt xe. | **AC-04:** Yêu cầu được tạo khi thông tin hợp lệ và hệ thống xác nhận đã tiếp nhận yêu cầu. | Trong phạm vi MVP |
+| **B3. Doanh nghiệp cần quản lý thông tin tài xế** | **BR-07:** Cho phép quản lý thông tin tài xế và phương tiện. | **FR-08:** Cho phép xem, thêm và cập nhật thông tin tài xế, phương tiện. | **UC-06:** Quản lý thông tin tài xế. | **AC-06:** Thông tin tài xế và phương tiện hợp lệ được lưu thành công. | Trong phạm vi MVP |
+| **B3. Doanh nghiệp cần quản lý thông tin tài xế** | **BR-08:** Cho phép tài xế đăng nhập và sử dụng hệ thống. | **FR-09:** Xác thực thông tin đăng nhập của tài xế. | **UC-07:** Đăng nhập tài xế. | **AC-07:** Tài xế được phép truy cập khi thông tin đăng nhập chính xác. | Trong phạm vi MVP |
+| **B4. Doanh nghiệp cần biết tài xế có thể nhận chuyến** | **BR-09:** Cho phép tài xế cập nhật trạng thái sẵn sàng hoặc không sẵn sàng. | **FR-10:** Cho phép chuyển đổi và lưu trạng thái nhận chuyến của tài xế. | **UC-08:** Cập nhật trạng thái sẵn sàng. | **AC-08:** Trạng thái mới của tài xế được lưu và sử dụng khi hệ thống tìm tài xế. | Trong phạm vi MVP |
+| **B5. Doanh nghiệp cần phân công tài xế cho yêu cầu đặt xe** | **BR-10:** Tìm và gửi yêu cầu chuyến xe đến tài xế phù hợp đang sẵn sàng. | **FR-11:** Xác định tài xế phù hợp và gửi yêu cầu chuyến xe. | **UC-09:** Tiếp nhận chuyến xe. | **AC-09:** Hệ thống tìm tài xế đang sẵn sàng và gửi yêu cầu chuyến xe cho tài xế. | Trong phạm vi MVP |
+| **B5. Doanh nghiệp cần phân công tài xế cho yêu cầu đặt xe** | **BR-11:** Tiếp tục tìm tài xế khác nếu tài xế từ chối hoặc không phản hồi. | **FR-12:** Ghi nhận việc từ chối/không phản hồi và tìm tài xế khác. | **UC-09:** Tiếp nhận chuyến xe. | **AC-09:** Khi tài xế không nhận chuyến, hệ thống tiếp tục tìm tài xế khác; nếu không tìm được thì thông báo cho khách hàng. | Trong phạm vi MVP |
+| **B6. Doanh nghiệp cần quản lý quá trình thực hiện chuyến xe** | **BR-12:** Cho phép tài xế cập nhật trạng thái chuyến và khách hàng theo dõi đến khi hoàn thành. | **FR-07:** Hiển thị trạng thái chuyến cho khách hàng.<br>**FR-13:** Cho phép tài xế cập nhật trạng thái chuyến xe. | **UC-05:** Theo dõi chuyến xe.<br>**UC-10:** Cập nhật trạng thái chuyến xe. | **AC-05:** Khách hàng xem được trạng thái hiện tại của chuyến.<br>**AC-10:** Tài xế cập nhật trạng thái theo đúng trình tự và hệ thống lưu trạng thái mới. | Trong phạm vi MVP |
