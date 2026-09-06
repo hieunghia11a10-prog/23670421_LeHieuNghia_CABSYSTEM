@@ -1178,3 +1178,123 @@ erDiagram
         string StatusName
         string Description
     }
+# Thiết kế Use Case – CAB System MVP
+
+## 1. Xác định Actor
+
+| Actor | Vai trò |
+|---|---|
+| **Khách hàng** | Đăng ký, đăng nhập, quản lý thông tin, đặt xe và theo dõi chuyến xe. |
+| **Tài xế** | Đăng nhập, cập nhật trạng thái sẵn sàng, tiếp nhận chuyến và cập nhật trạng thái chuyến xe. |
+| **Nhân viên vận hành** | Quản lý thông tin tài xế và phương tiện. |
+| **Hệ thống CAB** | Tự động tìm tài xế phù hợp và xử lý quá trình phân công chuyến xe. |
+
+---
+
+## 2. Danh sách Use Case
+
+### Nhóm 1 – Quản lý khách hàng
+
+| Mã | Use Case | Actor chính | FR liên quan |
+|---|---|---|---|
+| **UC-01** | Đăng ký tài khoản khách hàng | Khách hàng | FR-01 |
+| **UC-02** | Đăng nhập khách hàng | Khách hàng | FR-02 |
+| **UC-03** | Cập nhật thông tin khách hàng | Khách hàng | FR-03 |
+| **UC-04** | Đặt xe | Khách hàng | FR-04, FR-05, FR-06 |
+| **UC-05** | Theo dõi chuyến xe | Khách hàng | FR-07 |
+
+### Nhóm 2 – Quản lý tài xế
+
+| Mã | Use Case | Actor chính | FR liên quan |
+|---|---|---|---|
+| **UC-06** | Quản lý thông tin tài xế | Nhân viên vận hành | FR-08 |
+| **UC-07** | Đăng nhập tài xế | Tài xế | FR-09 |
+| **UC-08** | Cập nhật trạng thái sẵn sàng | Tài xế | FR-10 |
+| **UC-09** | Tiếp nhận chuyến xe | Tài xế | FR-11, FR-12 |
+| **UC-10** | Cập nhật trạng thái chuyến xe | Tài xế | FR-13 |
+
+---
+
+## 3. Quan hệ giữa các Use Case
+
+### UC-04 – Đặt xe
+
+Use Case "Đặt xe" bao gồm các chức năng:
+
+- Nhập điểm đón.
+- Nhập điểm đến.
+- Lựa chọn loại xe.
+- Kiểm tra thông tin đặt xe.
+- Gửi yêu cầu đặt xe.
+
+Do đó:
+
+**UC-04 Đặt xe**
+- `<<include>>` Nhập thông tin chuyến xe
+- `<<include>>` Lựa chọn loại xe
+- `<<include>>` Gửi yêu cầu đặt xe
+
+### UC-09 – Tiếp nhận chuyến xe
+
+Use Case này bao gồm:
+
+- Hệ thống tìm tài xế phù hợp.
+- Gửi yêu cầu chuyến xe.
+- Tài xế chấp nhận hoặc từ chối.
+- Nếu từ chối/không phản hồi → tìm tài xế khác.
+- Nếu không còn tài xế → thông báo cho khách hàng.
+
+Có thể mô hình:
+
+**UC-09 Tiếp nhận chuyến xe**
+- `<<include>>` Tìm tài xế phù hợp
+- `<<include>>` Gửi yêu cầu chuyến xe
+- `<<extend>>` Từ chối/không phản hồi
+- `<<extend>>` Không tìm được tài xế
+
+---
+
+## 4. Use Case Diagram
+
+```mermaid
+flowchart LR
+
+    KH["👤 Khách hàng"]
+    TX["🚕 Tài xế"]
+    NV["👤 Nhân viên vận hành"]
+
+    subgraph CAB["CAB System"]
+        UC01(("UC-01<br/>Đăng ký tài khoản"))
+        UC02(("UC-02<br/>Đăng nhập KH"))
+        UC03(("UC-03<br/>Cập nhật thông tin KH"))
+        UC04(("UC-04<br/>Đặt xe"))
+        UC05(("UC-05<br/>Theo dõi chuyến xe"))
+
+        UC06(("UC-06<br/>Quản lý thông tin tài xế"))
+        UC07(("UC-07<br/>Đăng nhập tài xế"))
+        UC08(("UC-08<br/>Cập nhật trạng thái<br/>sẵn sàng"))
+        UC09(("UC-09<br/>Tiếp nhận chuyến xe"))
+        UC10(("UC-10<br/>Cập nhật trạng thái<br/>chuyến xe"))
+
+        FIND(("Tìm tài xế<br/>phù hợp"))
+        SEND(("Gửi yêu cầu<br/>chuyến xe"))
+    end
+
+    KH --> UC01
+    KH --> UC02
+    KH --> UC03
+    KH --> UC04
+    KH --> UC05
+
+    TX --> UC07
+    TX --> UC08
+    TX --> UC09
+    TX --> UC10
+
+    NV --> UC06
+
+    UC04 -. "<<include>>" .-> FIND
+    FIND -. "<<include>>" .-> SEND
+    TX --> SEND
+
+    UC09 -. "<<include>>" .-> FIND
