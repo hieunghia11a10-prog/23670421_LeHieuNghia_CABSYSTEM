@@ -1413,3 +1413,52 @@ flowchart LR
 | 4 | Sau mỗi lần cập nhật, hệ thống lưu trạng thái mới của chuyến xe. |
 | 5 | Khách hàng có thể xem trạng thái mới của chuyến xe. |
 | 6 | Khi tài xế cập nhật "Hoàn thành", hệ thống xác nhận chuyến xe đã hoàn tất. |
+
+# BẢNG TRUY VẾT YÊU CẦU – CAB SYSTEM MVP
+
+## Mục đích
+
+Bảng truy vết yêu cầu được sử dụng để kiểm soát các yêu cầu trong dự án, đảm bảo mỗi nhu cầu nghiệp vụ được phân rã thành Business Requirement, Functional Requirement, Use Case và Acceptance Criteria tương ứng.
+
+Chuỗi truy vết:
+
+**Business → Business Requirement → Functional Requirement → Use Case → Acceptance Criteria**
+
+---
+
+## Ma trận truy vết yêu cầu
+
+| Business | Business Requirement | Functional Requirement | Use Case | Acceptance Criteria |
+|---|---|---|---|---|
+| **B1. Doanh nghiệp cần quản lý tài khoản khách hàng** | **BR-01:** Hệ thống phải cho phép khách hàng đăng ký tài khoản. | **FR-01:** Hệ thống phải cung cấp chức năng cho khách hàng đăng ký tài khoản. | **UC-01:** Đăng ký tài khoản khách hàng | **AC-01:** Khách hàng có thể đăng ký tài khoản khi cung cấp đầy đủ thông tin hợp lệ. |
+| **B1. Doanh nghiệp cần quản lý tài khoản khách hàng** | **BR-02:** Hệ thống phải cho phép khách hàng đăng nhập. | **FR-02:** Hệ thống phải cung cấp chức năng xác thực và cho phép khách hàng đăng nhập. | **UC-02:** Đăng nhập khách hàng | **AC-02:** Khách hàng đăng nhập thành công khi thông tin tài khoản hợp lệ. |
+| **B1. Doanh nghiệp cần quản lý tài khoản khách hàng** | **BR-03:** Hệ thống phải cho phép khách hàng xem và cập nhật thông tin cá nhân. | **FR-03:** Hệ thống phải cho phép khách hàng xem và cập nhật thông tin cá nhân. | **UC-03:** Cập nhật thông tin khách hàng | **AC-03:** Khách hàng có thể xem, cập nhật và lưu thông tin cá nhân hợp lệ. |
+| **B2. Doanh nghiệp cần khách hàng tạo yêu cầu đặt xe** | **BR-04:** Hệ thống phải cho phép khách hàng nhập điểm đón và điểm đến. | **FR-04:** Hệ thống phải cho phép khách hàng nhập điểm đón và điểm đến khi tạo yêu cầu đặt xe. | **UC-04:** Đặt xe | **AC-04:** Khách hàng có thể nhập đầy đủ điểm đón và điểm đến. |
+| **B2. Doanh nghiệp cần khách hàng tạo yêu cầu đặt xe** | **BR-05:** Hệ thống phải cho phép khách hàng lựa chọn loại xe. | **FR-05:** Hệ thống phải hiển thị danh sách loại xe và cho phép khách hàng lựa chọn một loại xe. | **UC-04:** Đặt xe | **AC-04:** Khách hàng có thể lựa chọn loại xe trước khi gửi yêu cầu. |
+| **B2. Doanh nghiệp cần khách hàng tạo yêu cầu đặt xe** | **BR-06:** Hệ thống phải cho phép khách hàng gửi yêu cầu đặt xe. | **FR-06:** Hệ thống phải kiểm tra thông tin và tạo yêu cầu đặt xe khi thông tin hợp lệ. | **UC-04:** Đặt xe | **AC-04:** Hệ thống tạo yêu cầu đặt xe khi thông tin bắt buộc đầy đủ và hợp lệ. |
+| **B3. Doanh nghiệp cần quản lý thông tin tài xế** | **BR-07:** Hệ thống phải cho phép quản lý thông tin tài xế và phương tiện. | **FR-08:** Hệ thống phải cho phép nhân viên vận hành thêm, xem và cập nhật thông tin tài xế và phương tiện. | **UC-06:** Quản lý thông tin tài xế | **AC-06:** Nhân viên vận hành có thể quản lý thông tin tài xế và phương tiện. |
+| **B3. Doanh nghiệp cần quản lý thông tin tài xế** | **BR-08:** Hệ thống phải cho phép tài xế đăng nhập. | **FR-09:** Hệ thống phải xác thực tài khoản và cho phép tài xế đăng nhập. | **UC-07:** Đăng nhập tài xế | **AC-07:** Tài xế đăng nhập thành công khi thông tin tài khoản hợp lệ. |
+| **B4. Doanh nghiệp cần biết tài xế có thể nhận chuyến** | **BR-09:** Hệ thống phải cho phép tài xế cập nhật trạng thái sẵn sàng hoặc không sẵn sàng nhận chuyến. | **FR-10:** Hệ thống phải cho phép tài xế thay đổi và lưu trạng thái sẵn sàng nhận chuyến. | **UC-08:** Cập nhật trạng thái sẵn sàng | **AC-08:** Trạng thái sẵn sàng hoặc không sẵn sàng của tài xế được cập nhật và lưu thành công. |
+| **B5. Doanh nghiệp cần phân công tài xế cho yêu cầu đặt xe** | **BR-10:** Hệ thống phải tìm và gửi yêu cầu chuyến xe đến tài xế phù hợp đang sẵn sàng nhận chuyến. | **FR-11:** Hệ thống phải tìm tài xế phù hợp, đang sẵn sàng và gửi yêu cầu chuyến xe đến tài xế. | **UC-09:** Tiếp nhận chuyến xe | **AC-09:** Hệ thống tìm và gửi yêu cầu chuyến xe đến tài xế phù hợp đang sẵn sàng. |
+| **B5. Doanh nghiệp cần phân công tài xế cho yêu cầu đặt xe** | **BR-11:** Nếu tài xế từ chối hoặc không phản hồi, hệ thống phải tiếp tục tìm tài xế phù hợp khác. | **FR-12:** Hệ thống phải tiếp tục tìm tài xế khác khi tài xế được gửi yêu cầu không chấp nhận chuyến. | **UC-09:** Tiếp nhận chuyến xe | **AC-09:** Nếu tài xế từ chối hoặc không phản hồi, hệ thống tiếp tục tìm tài xế khác; nếu không có tài xế phù hợp, khách hàng được thông báo. |
+| **B6. Doanh nghiệp cần quản lý quá trình thực hiện chuyến xe** | **BR-12:** Hệ thống phải cho phép tài xế cập nhật trạng thái chuyến xe và cho phép khách hàng theo dõi trạng thái cho đến khi chuyến hoàn thành. | **FR-07:** Hệ thống phải cho phép khách hàng theo dõi trạng thái chuyến xe. | **UC-05:** Theo dõi chuyến xe | **AC-05:** Khách hàng có thể xem trạng thái hiện tại của chuyến xe và thông tin tài xế được phân công. |
+| **B6. Doanh nghiệp cần quản lý quá trình thực hiện chuyến xe** | **BR-12:** Hệ thống phải cho phép tài xế cập nhật trạng thái chuyến xe và cho phép khách hàng theo dõi trạng thái cho đến khi chuyến hoàn thành. | **FR-13:** Hệ thống phải cho phép tài xế cập nhật trạng thái chuyến xe từ khi nhận chuyến đến khi hoàn thành. | **UC-10:** Cập nhật trạng thái chuyến xe | **AC-10:** Tài xế được phân công có thể cập nhật trạng thái chuyến theo đúng trình tự cho đến khi hoàn thành. |
+
+---
+
+## Ma trận tóm tắt truy vết
+
+| BR | FR | Use Case | AC |
+|---|---|---|---|
+| BR-01 | FR-01 | UC-01 | AC-01 |
+| BR-02 | FR-02 | UC-02 | AC-02 |
+| BR-03 | FR-03 | UC-03 | AC-03 |
+| BR-04 | FR-04 | UC-04 | AC-04 |
+| BR-05 | FR-05 | UC-04 | AC-04 |
+| BR-06 | FR-06 | UC-04 | AC-04 |
+| BR-07 | FR-08 | UC-06 | AC-06 |
+| BR-08 | FR-09 | UC-07 | AC-07 |
+| BR-09 | FR-10 | UC-08 | AC-08 |
+| BR-10 | FR-11 | UC-09 | AC-09 |
+| BR-11 | FR-12 | UC-09 | AC-09 |
+| BR-12 | FR-07, FR-13 | UC-05, UC-10 | AC-05, AC-10 |
