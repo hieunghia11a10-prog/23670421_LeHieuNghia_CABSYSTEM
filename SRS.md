@@ -32,3 +32,28 @@ Quản trị viên
 | **Nhà cung cấp dịch vụ thanh toán** | Trung bình | Trung bình | Duy trì quan hệ và phối hợp khi tích hợp, xử lý giao dịch hoặc sự cố thanh toán. |
 | **Nhà cung cấp dịch vụ bản đồ/GPS** | Trung bình | Trung bình | Duy trì quan hệ; phối hợp về dữ liệu vị trí, khoảng cách và dịch vụ bản đồ. |
 | **Nhà cung cấp dịch vụ thông báo** | Trung bình | Thấp | Theo dõi và cung cấp thông tin cần thiết khi tích hợp hoặc xử lý sự cố thông báo. |
+
+
+## Stakeholder Matrix – CAB System
+
+### Power – Interest Matrix
+
+```mermaid
+quadrantChart
+    title Stakeholder Matrix – CAB System
+    x-axis "Interest thấp" --> "Interest cao"
+    y-axis "Power thấp" --> "Power cao"
+
+    quadrant-1 "Quản lý chặt chẽ"
+    quadrant-2 "Duy trì hài lòng"
+    quadrant-3 "Theo dõi"
+    quadrant-4 "Cập nhật thông tin"
+
+    "Ban giám đốc": [0.9, 0.9]
+    "Nhân viên vận hành": [0.85, 0.85]
+    "Quản trị viên": [0.8, 0.8]
+    "Khách hàng": [0.9, 0.35]
+    "Tài xế": [0.8, 0.3]
+    "Nhà cung cấp thanh toán": [0.55, 0.55]
+    "Nhà cung cấp bản đồ/GPS": [0.5, 0.5]
+    "Nhà cung cấp thông báo": [0.3, 0.3]
