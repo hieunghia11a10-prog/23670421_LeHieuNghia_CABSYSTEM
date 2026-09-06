@@ -1499,22 +1499,4 @@ Thông qua bảng truy vết, nhóm dự án có thể kiểm tra:
 | **B5. Doanh nghiệp cần phân công tài xế cho yêu cầu đặt xe** | **BR-10:** Tìm và gửi yêu cầu chuyến xe đến tài xế phù hợp đang sẵn sàng. | **FR-11:** Xác định tài xế phù hợp và gửi yêu cầu chuyến xe. | **UC-09:** Tiếp nhận chuyến xe. | **AC-09:** Hệ thống tìm tài xế đang sẵn sàng và gửi yêu cầu chuyến xe cho tài xế. | Trong phạm vi MVP |
 | **B5. Doanh nghiệp cần phân công tài xế cho yêu cầu đặt xe** | **BR-11:** Tiếp tục tìm tài xế khác nếu tài xế từ chối hoặc không phản hồi. | **FR-12:** Ghi nhận việc từ chối/không phản hồi và tìm tài xế khác. | **UC-09:** Tiếp nhận chuyến xe. | **AC-09:** Khi tài xế không nhận chuyến, hệ thống tiếp tục tìm tài xế khác; nếu không tìm được thì thông báo cho khách hàng. | Trong phạm vi MVP |
 | **B6. Doanh nghiệp cần quản lý quá trình thực hiện chuyến xe** | **BR-12:** Cho phép tài xế cập nhật trạng thái chuyến và khách hàng theo dõi đến khi hoàn thành. | **FR-07:** Hiển thị trạng thái chuyến cho khách hàng.<br>**FR-13:** Cho phép tài xế cập nhật trạng thái chuyến xe. | **UC-05:** Theo dõi chuyến xe.<br>**UC-10:** Cập nhật trạng thái chuyến xe. | **AC-05:** Khách hàng xem được trạng thái hiện tại của chuyến.<br>**AC-10:** Tài xế cập nhật trạng thái theo đúng trình tự và hệ thống lưu trạng thái mới. | Trong phạm vi MVP |
-B1 ──→ BR-01 ──→ FR-01 ──→ UC-01 ──→ AC-01
-B1 ──→ BR-02 ──→ FR-02 ──→ UC-02 ──→ AC-02
-B1 ──→ BR-03 ──→ FR-03 ──→ UC-03 ──→ AC-03
 
-B2 ──→ BR-04 ──→ FR-04 ──┐
-B2 ──→ BR-05 ──→ FR-05 ──┼──→ UC-04 ──→ AC-04
-B2 ──→ BR-06 ──→ FR-06 ──┘
-
-B3 ──→ BR-07 ──→ FR-08 ──→ UC-06 ──→ AC-06
-B3 ──→ BR-08 ──→ FR-09 ──→ UC-07 ──→ AC-07
-
-B4 ──→ BR-09 ──→ FR-10 ──→ UC-08 ──→ AC-08
-
-B5 ──→ BR-10 ──→ FR-11 ──┐
-B5 ──→ BR-11 ──→ FR-12 ──┴──→ UC-09 ──→ AC-09
-
-B6 ──→ BR-12 ──→ FR-07 ──→ UC-05 ──→ AC-05
-                  │
-                  └──→ FR-13 ──→ UC-10 ──→ AC-10
