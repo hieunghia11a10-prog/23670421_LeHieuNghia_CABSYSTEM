@@ -991,3 +991,22 @@ Tài xế cập nhật trạng thái trong quá trình thực hiện chuyến.
 Đang di chuyển
       ↓
 Hoàn thành
+```
+## Business Rules
+
+| Mã | Business Rule |
+|---|---|
+| **BRL-01** | Mỗi khách hàng phải có một tài khoản riêng để sử dụng chức năng đặt xe. |
+| **BRL-02** | Khách hàng chỉ được đặt xe khi đã đăng nhập vào hệ thống. |
+| **BRL-03** | Thông tin bắt buộc của khách hàng phải được cung cấp đầy đủ trước khi tạo yêu cầu đặt xe. |
+| **BRL-04** | Một yêu cầu đặt xe phải có điểm đón, điểm đến và loại xe. |
+| **BRL-05** | Tài xế chỉ được nhận chuyến khi tài khoản hợp lệ và đang ở trạng thái sẵn sàng nhận chuyến. |
+| **BRL-06** | Tài xế đang thực hiện một chuyến xe không được nhận thêm chuyến khác. |
+| **BRL-07** | Một yêu cầu đặt xe chỉ được gán cho một tài xế tại một thời điểm. |
+| **BRL-08** | Hệ thống chỉ gửi yêu cầu chuyến xe đến tài xế phù hợp và đang sẵn sàng nhận chuyến. |
+| **BRL-09** | Nếu tài xế từ chối hoặc không phản hồi, hệ thống phải tiếp tục tìm tài xế phù hợp khác. |
+| **BRL-10** | Nếu không tìm được tài xế phù hợp, hệ thống phải thông báo cho khách hàng. |
+| **BRL-11** | Trạng thái chuyến xe phải được cập nhật theo trình tự: Đã nhận chuyến → Đã đến điểm đón → Đã đón khách → Đang di chuyển → Hoàn thành. |
+| **BRL-12** | Chỉ tài xế được phân công cho chuyến xe mới được phép cập nhật trạng thái của chuyến đó. |
+| **BRL-13** | Khi chuyến xe hoàn thành, hệ thống phải lưu trạng thái hoàn thành của chuyến xe. |
+
