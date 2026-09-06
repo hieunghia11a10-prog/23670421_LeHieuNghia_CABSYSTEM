@@ -1299,6 +1299,7 @@ flowchart LR
     TX --> SEND
 
     UC09 -. "<<include>>" .-> FIND
+```
 
 # Tiêu chí chấp nhận (Acceptance Criteria – AC)
 
