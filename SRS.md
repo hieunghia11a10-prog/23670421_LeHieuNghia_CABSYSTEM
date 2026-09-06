@@ -1481,7 +1481,7 @@ Thông qua bảng truy vết, nhóm dự án có thể kiểm tra:
 - Mỗi Use Case có tiêu chí chấp nhận để xác định kết quả thực hiện hay không.
 - Phát hiện các yêu cầu bị thiếu, trùng lặp hoặc nằm ngoài phạm vi MVP.
 
----
+----
 
 ## 2. Requirement Traceability Matrix
 
