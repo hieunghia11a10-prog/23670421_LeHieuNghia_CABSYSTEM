@@ -583,3 +583,36 @@ Trong giai đoạn này, hệ thống **không yêu cầu lựa chọn tài xế
 | **B5. Doanh nghiệp cần phân công tài xế cho yêu cầu đặt xe** | **BR-10:** Hệ thống phải tìm và gửi yêu cầu chuyến xe đến tài xế phù hợp đang sẵn sàng nhận chuyến. |
 | | **BR-11:** Nếu tài xế từ chối hoặc không phản hồi, hệ thống phải tiếp tục tìm tài xế phù hợp khác. |
 | **B6. Doanh nghiệp cần quản lý quá trình thực hiện chuyến xe** | **BR-12:** Hệ thống phải cho phép tài xế cập nhật trạng thái chuyến xe và cho phép khách hàng theo dõi trạng thái cho đến khi chuyến hoàn thành. |
+
+
+KHÁCH HÀNG
+Đăng ký/Đăng nhập
+       ↓
+Nhập điểm đón + điểm đến
+       ↓
+Chọn loại xe
+       ↓
+Gửi yêu cầu
+       ↓
+        HỆ THỐNG
+        Tìm tài xế
+             ↓
+       Có tài xế phù hợp?
+        ↓             ↓
+      Không           Có
+        ↓              ↓
+Thông báo        Gửi yêu cầu
+                  tài xế
+                     ↓
+              Tài xế nhận?
+                ↓       ↓
+              Không     Có
+                ↓        ↓
+          Tìm tài xế    Nhận chuyến
+             khác          ↓
+                            TÀI XẾ
+                       Thực hiện chuyến
+                            ↓
+                    Cập nhật trạng thái
+                            ↓
+                         Hoàn thành
