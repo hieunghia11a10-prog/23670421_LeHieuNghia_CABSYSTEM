@@ -1010,3 +1010,17 @@ Hoàn thành
 | **BRL-12** | Chỉ tài xế được phân công cho chuyến xe mới được phép cập nhật trạng thái của chuyến đó. |
 | **BRL-13** | Khi chuyến xe hoàn thành, hệ thống phải lưu trạng thái hoàn thành của chuyến xe. |
 
+## Nghiệp vụ phi chức năng
+
+| Mã | Nhóm | Nghiệp vụ phi chức năng |
+|---|---|---|
+| **NFR-01** | Hiệu năng | Hệ thống phải phản hồi các thao tác thông thường của khách hàng và tài xế trong thời gian phù hợp, không gây gián đoạn quá trình sử dụng. |
+| **NFR-02** | Khả năng đáp ứng | Hệ thống phải có khả năng xử lý đồng thời nhiều yêu cầu đặt xe và yêu cầu từ tài xế. |
+| **NFR-03** | Tính sẵn sàng | Hệ thống phải duy trì hoạt động ổn định trong thời gian cung cấp dịch vụ. |
+| **NFR-04** | Bảo mật | Hệ thống phải yêu cầu xác thực khi khách hàng và tài xế đăng nhập. |
+| **NFR-05** | Phân quyền | Hệ thống phải kiểm soát quyền truy cập đối với các chức năng quản lý khách hàng và tài xế theo vai trò người dùng. |
+| **NFR-06** | Bảo vệ dữ liệu | Hệ thống phải bảo vệ thông tin cá nhân của khách hàng và thông tin của tài xế khỏi truy cập trái phép. |
+| **NFR-07** | Tin cậy | Khi xảy ra lỗi ở một chức năng, hệ thống phải thông báo phù hợp và hạn chế ảnh hưởng đến các chức năng khác. |
+| **NFR-08** | Khả năng mở rộng | Hệ thống phải cho phép mở rộng thêm các chức năng, phương thức thanh toán hoặc dịch vụ thông báo trong tương lai mà không phải thay đổi toàn bộ hệ thống. |
+| **NFR-09** | Khả năng bảo trì | Hệ thống phải được thiết kế theo các thành phần tương đối độc lập để thuận tiện cho việc sửa lỗi và nâng cấp. |
+| **NFR-10** | Tính tương thích | Hệ thống phải có khả năng hoạt động trên các trình duyệt web phổ biến và trên các thiết bị được hỗ trợ. |
