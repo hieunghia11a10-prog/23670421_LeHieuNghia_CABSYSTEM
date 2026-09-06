@@ -1024,3 +1024,157 @@ Hoàn thành
 | **NFR-08** | Khả năng mở rộng | Hệ thống phải cho phép mở rộng thêm các chức năng, phương thức thanh toán hoặc dịch vụ thông báo trong tương lai mà không phải thay đổi toàn bộ hệ thống. |
 | **NFR-09** | Khả năng bảo trì | Hệ thống phải được thiết kế theo các thành phần tương đối độc lập để thuận tiện cho việc sửa lỗi và nâng cấp. |
 | **NFR-10** | Tính tương thích | Hệ thống phải có khả năng hoạt động trên các trình duyệt web phổ biến và trên các thiết bị được hỗ trợ. |
+
+# Xác định các thực thể và mô hình hóa dữ liệu ERD
+
+## 1. Xác định các thực thể
+
+| STT | Thực thể | Mô tả |
+|---|---|---|
+| 1 | **Khách hàng (Customer)** | Lưu thông tin tài khoản và thông tin cá nhân của khách hàng. |
+| 2 | **Tài xế (Driver)** | Lưu thông tin tài khoản, thông tin cá nhân và trạng thái của tài xế. |
+| 3 | **Phương tiện (Vehicle)** | Lưu thông tin phương tiện mà tài xế sử dụng. |
+| 4 | **Loại xe (VehicleType)** | Lưu các loại xe mà khách hàng có thể lựa chọn khi đặt xe. |
+| 5 | **Chuyến xe (Trip)** | Lưu thông tin yêu cầu đặt xe và quá trình thực hiện chuyến xe. |
+| 6 | **Trạng thái chuyến xe (TripStatus)** | Lưu các trạng thái của chuyến xe trong quá trình thực hiện. |
+
+## 2. Thuộc tính của các thực thể
+
+### 2.1. Thực thể Khách hàng (Customer)
+
+| Thuộc tính | Mô tả | Khóa |
+|---|---|---|
+| CustomerID | Mã khách hàng | PK |
+| FullName | Họ và tên | |
+| Phone | Số điện thoại | UNIQUE |
+| Email | Email | |
+| Password | Mật khẩu đăng nhập | |
+| Address | Địa chỉ | |
+
+### 2.2. Thực thể Tài xế (Driver)
+
+| Thuộc tính | Mô tả | Khóa |
+|---|---|---|
+| DriverID | Mã tài xế | PK |
+| FullName | Họ và tên | |
+| Phone | Số điện thoại | UNIQUE |
+| Email | Email | |
+| Password | Mật khẩu đăng nhập | |
+| AvailabilityStatus | Trạng thái sẵn sàng nhận chuyến | |
+| DriverStatus | Trạng thái tài khoản tài xế | |
+
+### 2.3. Thực thể Phương tiện (Vehicle)
+
+| Thuộc tính | Mô tả | Khóa |
+|---|---|---|
+| VehicleID | Mã phương tiện | PK |
+| DriverID | Mã tài xế sở hữu/sử dụng phương tiện | FK |
+| VehicleTypeID | Mã loại xe | FK |
+| LicensePlate | Biển số xe | UNIQUE |
+| VehicleModel | Tên/model xe | |
+| VehicleStatus | Trạng thái phương tiện | |
+
+### 2.4. Thực thể Loại xe (VehicleType)
+
+| Thuộc tính | Mô tả | Khóa |
+|---|---|---|
+| VehicleTypeID | Mã loại xe | PK |
+| VehicleTypeName | Tên loại xe | |
+| Description | Mô tả loại xe | |
+
+### 2.5. Thực thể Chuyến xe (Trip)
+
+| Thuộc tính | Mô tả | Khóa |
+|---|---|---|
+| TripID | Mã chuyến xe | PK |
+| CustomerID | Mã khách hàng | FK |
+| DriverID | Mã tài xế được phân công | FK |
+| VehicleTypeID | Loại xe khách hàng lựa chọn | FK |
+| PickupLocation | Điểm đón | |
+| DropoffLocation | Điểm đến | |
+| TripStatusID | Trạng thái hiện tại của chuyến | FK |
+| CreatedAt | Thời gian tạo yêu cầu | |
+| CompletedAt | Thời gian hoàn thành | |
+
+### 2.6. Thực thể Trạng thái chuyến xe (TripStatus)
+
+| Thuộc tính | Mô tả | Khóa |
+|---|---|---|
+| TripStatusID | Mã trạng thái | PK |
+| StatusName | Tên trạng thái | |
+| Description | Mô tả trạng thái | |
+
+## 3. Mối quan hệ giữa các thực thể
+
+| Mối quan hệ | Cardinality | Giải thích |
+|---|---|---|
+| Khách hàng — Chuyến xe | 1 : N | Một khách hàng có thể tạo nhiều chuyến xe; mỗi chuyến xe thuộc về một khách hàng. |
+| Tài xế — Phương tiện | 1 : N | Một tài xế có thể được quản lý với một hoặc nhiều phương tiện; mỗi phương tiện gắn với một tài xế. |
+| Loại xe — Phương tiện | 1 : N | Một loại xe có thể áp dụng cho nhiều phương tiện; mỗi phương tiện thuộc một loại xe. |
+| Loại xe — Chuyến xe | 1 : N | Một loại xe có thể được lựa chọn trong nhiều chuyến; mỗi chuyến xe có một loại xe được lựa chọn. |
+| Tài xế — Chuyến xe | 1 : N | Một tài xế có thể thực hiện nhiều chuyến xe; mỗi chuyến xe tại một thời điểm chỉ được phân công cho một tài xế. |
+| Trạng thái chuyến — Chuyến xe | 1 : N | Một trạng thái có thể được sử dụng cho nhiều chuyến xe; mỗi chuyến xe có một trạng thái hiện tại. |
+
+## 4. Mô hình thực thể kết hợp (ERD)
+
+```mermaid
+erDiagram
+
+    CUSTOMER ||--o{ TRIP : "tao"
+    DRIVER ||--o{ TRIP : "thuc hien"
+    DRIVER ||--o{ VEHICLE : "su dung"
+    VEHICLE_TYPE ||--o{ VEHICLE : "phan loai"
+    VEHICLE_TYPE ||--o{ TRIP : "duoc chon"
+    TRIP_STATUS ||--o{ TRIP : "co"
+
+    CUSTOMER {
+        int CustomerID PK
+        string FullName
+        string Phone UK
+        string Email
+        string Password
+        string Address
+    }
+
+    DRIVER {
+        int DriverID PK
+        string FullName
+        string Phone UK
+        string Email
+        string Password
+        string AvailabilityStatus
+        string DriverStatus
+    }
+
+    VEHICLE {
+        int VehicleID PK
+        int DriverID FK
+        int VehicleTypeID FK
+        string LicensePlate UK
+        string VehicleModel
+        string VehicleStatus
+    }
+
+    VEHICLE_TYPE {
+        int VehicleTypeID PK
+        string VehicleTypeName
+        string Description
+    }
+
+    TRIP {
+        int TripID PK
+        int CustomerID FK
+        int DriverID FK
+        int VehicleTypeID FK
+        string PickupLocation
+        string DropoffLocation
+        int TripStatusID FK
+        datetime CreatedAt
+        datetime CompletedAt
+    }
+
+    TRIP_STATUS {
+        int TripStatusID PK
+        string StatusName
+        string Description
+    }
