@@ -317,3 +317,180 @@ Chưa cần:
 
 > **xếp hạng → tính điểm → tối ưu khoảng cách → chọn tài xế tốt nhất → thuật toán dispatch nâng cao.**
 
+# Business Requirements – CAB System MVP
+
+## 1. Phạm vi MVP
+
+Trong giai đoạn MVP, CAB System tập trung phát triển hai module:
+
+* **Quản lý khách hàng**
+* **Quản lý tài xế**
+
+Mục tiêu của MVP là xây dựng được quy trình đặt và thực hiện chuyến xe cơ bản.
+
+Hệ thống chưa tập trung vào việc tìm kiếm và lựa chọn **tài xế tốt nhất**. Chỉ cần hệ thống tìm được một tài xế phù hợp và đang sẵn sàng nhận chuyến để hoàn thành quy trình đặt xe.
+
+---
+
+# 2. Business Requirements – Quản lý khách hàng
+
+| Mã        | Business Requirement                                                                              |
+| --------- | ------------------------------------------------------------------------------------------------- |
+| **BR-01** | Hệ thống phải cho phép khách hàng đăng ký tài khoản.                                              |
+| **BR-02** | Hệ thống phải cho phép khách hàng đăng nhập vào hệ thống.                                         |
+| **BR-03** | Hệ thống phải cho phép khách hàng xem và cập nhật thông tin cá nhân.                              |
+| **BR-04** | Hệ thống phải cho phép khách hàng nhập điểm đón khi đặt xe.                                       |
+| **BR-05** | Hệ thống phải cho phép khách hàng nhập điểm đến khi đặt xe.                                       |
+| **BR-06** | Hệ thống phải cho phép khách hàng lựa chọn loại xe khi đặt xe.                                    |
+| **BR-07** | Hệ thống phải cho phép khách hàng gửi yêu cầu đặt xe sau khi cung cấp đầy đủ thông tin chuyến đi. |
+| **BR-08** | Hệ thống phải cho phép khách hàng theo dõi trạng thái xử lý yêu cầu đặt xe.                       |
+| **BR-09** | Hệ thống phải hiển thị thông tin tài xế được phân công cho khách hàng khi có tài xế nhận chuyến.  |
+| **BR-10** | Hệ thống phải cho phép khách hàng theo dõi trạng thái chuyến xe.                                  |
+| **BR-11** | Hệ thống phải cho phép khách hàng xem lịch sử các chuyến xe đã hoàn thành.                        |
+
+---
+
+# 3. Business Requirements – Quản lý tài xế
+
+| Mã        | Business Requirement                                                                          |
+| --------- | --------------------------------------------------------------------------------------------- |
+| **BR-12** | Hệ thống phải cho phép tài xế đăng nhập vào hệ thống.                                         |
+| **BR-13** | Hệ thống phải cho phép tài xế xem và cập nhật thông tin cá nhân.                              |
+| **BR-14** | Hệ thống phải cho phép tài xế xem và cập nhật thông tin phương tiện.                          |
+| **BR-15** | Hệ thống phải cho phép tài xế chuyển đổi trạng thái sẵn sàng hoặc không sẵn sàng nhận chuyến. |
+| **BR-16** | Hệ thống phải gửi thông báo cho tài xế khi có yêu cầu chuyến xe phù hợp.                      |
+| **BR-17** | Hệ thống phải cho phép tài xế chấp nhận hoặc từ chối yêu cầu chuyến xe.                       |
+| **BR-18** | Hệ thống phải ghi nhận tài xế được phân công khi tài xế chấp nhận chuyến.                     |
+| **BR-19** | Hệ thống phải cho phép tài xế cập nhật trạng thái chuyến xe trong quá trình thực hiện.        |
+| **BR-20** | Hệ thống phải ghi nhận vị trí của tài xế trong quá trình phục vụ chuyến xe.                   |
+
+---
+
+# 4. Business Requirements – Đặt và phân công chuyến xe
+
+Đây là các yêu cầu nghiệp vụ cần thiết để hai module **Quản lý khách hàng** và **Quản lý tài xế** có thể hoạt động cùng nhau.
+
+| Mã        | Business Requirement                                                                            |
+| --------- | ----------------------------------------------------------------------------------------------- |
+| **BR-21** | Hệ thống phải tìm kiếm các tài xế đang sẵn sàng nhận chuyến.                                    |
+| **BR-22** | Hệ thống phải chỉ gửi yêu cầu đến tài xế có loại xe phù hợp với loại xe khách hàng đã lựa chọn. |
+| **BR-23** | Hệ thống phải phân công chuyến cho tài xế khi tài xế chấp nhận yêu cầu.                         |
+| **BR-24** | Nếu tài xế từ chối yêu cầu, hệ thống phải tiếp tục tìm tài xế phù hợp khác.                     |
+| **BR-25** | Nếu không có tài xế phù hợp, hệ thống phải thông báo cho khách hàng.                            |
+| **BR-26** | Hệ thống phải quản lý trạng thái chuyến xe từ khi tìm tài xế đến khi chuyến hoàn thành.         |
+
+---
+
+# 5. Các trạng thái chuyến xe trong MVP
+
+Trong MVP, hệ thống quản lý các trạng thái cơ bản:
+
+```text
+Tìm tài xế
+     ↓
+Đã phân công tài xế
+     ↓
+Tài xế đến điểm đón
+     ↓
+Đã đón khách
+     ↓
+Đang di chuyển
+     ↓
+Hoàn thành
+```
+
+Tài xế có trách nhiệm cập nhật trạng thái chuyến trong quá trình thực hiện.
+
+---
+
+# 6. Giới hạn MVP
+
+## 6.1. Có trong MVP
+
+| Chức năng                    | MVP   |
+| ---------------------------- | ----- |
+| Đăng ký khách hàng           | ✅     |
+| Đăng nhập khách hàng         | ✅     |
+| Quản lý thông tin khách hàng | ✅     |
+| Nhập điểm đón                | ✅     |
+| Nhập điểm đến                | ✅     |
+| **Lựa chọn loại xe**         | **✅** |
+| Gửi yêu cầu đặt xe           | ✅     |
+| Tìm tài xế cơ bản            | ✅     |
+| Tài xế online/offline        | ✅     |
+| Tài xế nhận/từ chối chuyến   | ✅     |
+| Phân công tài xế             | ✅     |
+| Cập nhật trạng thái chuyến   | ✅     |
+| Theo dõi trạng thái chuyến   | ✅     |
+| Xem thông tin tài xế         | ✅     |
+| Lưu lịch sử chuyến           | ✅     |
+
+## 6.2. Chưa có trong MVP
+
+| Chức năng                            | Trạng thái |
+| ------------------------------------ | ---------- |
+| Tìm tài xế tốt nhất                  | ❌          |
+| Xếp hạng tài xế                      | ❌          |
+| Tối ưu khoảng cách giữa nhiều tài xế | ❌          |
+| Thuật toán điều phối nâng cao        | ❌          |
+| Tính giá động                        | ❌          |
+| Khuyến mãi/voucher                   | ❌          |
+| Ví điện tử                           | ❌          |
+| Chat khách hàng – tài xế             | ❌          |
+| Đặt xe trước theo lịch               | ❌          |
+| Nhiều điểm đón/trả                   | ❌          |
+| Báo cáo phân tích tài xế nâng cao    | ❌          |
+
+---
+
+# 7. Mối quan hệ giữa Business Requirements và Module MVP
+
+| Module                         | Business Requirements chính |
+| ------------------------------ | --------------------------- |
+| **Quản lý khách hàng**         | BR-01 → BR-11               |
+| **Quản lý tài xế**             | BR-12 → BR-20               |
+| **Đặt và phân công chuyến xe** | BR-21 → BR-26               |
+
+### Luồng MVP tổng quát
+
+```text
+                 CAB SYSTEM MVP
+                       │
+          ┌────────────┴────────────┐
+          │                         │
+   Quản lý khách hàng        Quản lý tài xế
+          │                         │
+          │                         │
+          └────── Đặt chuyến ───────┘
+                       │
+                       ↓
+                Tìm tài xế cơ bản
+                       │
+              ┌────────┴────────┐
+              │                 │
+          Có tài xế         Không có
+              │                 │
+              ↓                 ↓
+       Tài xế nhận chuyến    Thông báo KH
+              │
+              ↓
+       Thực hiện chuyến
+              │
+              ↓
+          Hoàn thành
+              │
+              ↓
+        Lưu lịch sử chuyến
+```
+
+---
+
+# 8. Kết luận
+
+Các Business Requirements trên được xây dựng trực tiếp từ yêu cầu nghiệp vụ của CAB System và được giới hạn theo phạm vi MVP.
+
+MVP tập trung vào việc chứng minh hệ thống có thể thực hiện được quy trình:
+
+**Khách hàng lựa chọn xe → gửi yêu cầu → hệ thống tìm tài xế phù hợp → tài xế nhận chuyến → thực hiện chuyến → hoàn thành.**
+
+Trong giai đoạn này, hệ thống **không yêu cầu lựa chọn tài xế tốt nhất**, mà chỉ cần tìm được **một tài xế phù hợp và sẵn sàng** để đảm bảo quy trình đặt xe hoạt động.
