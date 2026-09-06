@@ -1178,6 +1178,7 @@ erDiagram
         string StatusName
         string Description
     }
+```
 # Thiết kế Use Case – CAB System MVP
 
 ## 1. Xác định Actor
