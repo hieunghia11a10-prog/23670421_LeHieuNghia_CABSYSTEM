@@ -55,8 +55,8 @@ quadrantChart
     "Khách hàng": [0.9, 0.35]
     "Tài xế": [0.8, 0.3]
     "Nhà cung cấp thanh toán": [0.55, 0.55]
-    "Nhà cung cấp bản đồ/GPS": [0.5, 0.5]
-    "Nhà cung cấp thông báo": [0.3, 0.3]
+    "Nhà cung cấp bản đồ/GPấpS": [0.5, 0.5]
+    "Nhà cung c thông báo": [0.3, 0.3]
 ```
 # Business Rules – CAB System MVP
 
@@ -485,11 +485,70 @@ Tài xế có trách nhiệm cập nhật trạng thái chuyến trong quá trì
 
 ---
 
-# 8. Kết luận
+# Business – Business Requirement (BR) – CAB System MVP
 
-Các Business Requirements trên được xây dựng trực tiếp từ yêu cầu nghiệp vụ của CAB System và được giới hạn theo phạm vi MVP.
+| Business | Business Requirement (BR) |
+|---|---|
+| **B1. Doanh nghiệp cần quản lý thông tin khách hàng** | **BR-01:** Hệ thống phải cho phép khách hàng đăng ký tài khoản. |
+| | **BR-02:** Hệ thống phải cho phép khách hàng đăng nhập. |
+| | **BR-03:** Hệ thống phải cho phép khách hàng xem và cập nhật thông tin cá nhân. |
+| **B2. Doanh nghiệp cần khách hàng có thể gửi yêu cầu đặt xe** | **BR-04:** Hệ thống phải cho phép khách hàng nhập điểm đón và điểm đến. |
+| | **BR-05:** Hệ thống phải cho phép khách hàng lựa chọn loại xe phù hợp với nhu cầu. |
+| | **BR-06:** Hệ thống phải cho phép khách hàng gửi yêu cầu đặt xe sau khi nhập đầy đủ thông tin. |
+| **B3. Doanh nghiệp cần quản lý thông tin tài xế** | **BR-07:** Hệ thống phải cho phép quản lý thông tin tài xế. |
+| | **BR-08:** Hệ thống phải cho phép quản lý thông tin phương tiện của tài xế. |
+| | **BR-09:** Hệ thống phải cho phép tài xế đăng nhập và sử dụng hệ thống. |
+| **B4. Doanh nghiệp cần biết tài xế nào đang có thể nhận chuyến** | **BR-10:** Hệ thống phải cho phép tài xế cập nhật trạng thái sẵn sàng hoặc không sẵn sàng nhận chuyến. |
+| **B5. Doanh nghiệp cần phân công tài xế cho yêu cầu đặt xe** | **BR-11:** Hệ thống phải tìm tài xế đang sẵn sàng và phù hợp với loại xe khách hàng lựa chọn. |
+| | **BR-12:** Hệ thống phải gửi yêu cầu chuyến xe đến tài xế phù hợp. |
+| | **BR-13:** Hệ thống phải ghi nhận tài xế khi tài xế chấp nhận chuyến. |
+| **B6. Doanh nghiệp cần chuyến xe được thực hiện trên hệ thống** | **BR-14:** Hệ thống phải cho phép tài xế cập nhật trạng thái chuyến xe. |
+| | **BR-15:** Hệ thống phải quản lý trạng thái chuyến từ khi phân công tài xế đến khi hoàn thành. |
+| **B7. Doanh nghiệp cần khách hàng biết tình trạng chuyến xe** | **BR-16:** Hệ thống phải cho phép khách hàng theo dõi trạng thái chuyến xe. |
+| | **BR-17:** Hệ thống phải hiển thị thông tin tài xế được phân công cho khách hàng. |
+| **B8. Doanh nghiệp cần xử lý trường hợp tài xế không nhận chuyến** | **BR-18:** Nếu tài xế từ chối hoặc không phản hồi, hệ thống phải tiếp tục tìm tài xế phù hợp khác. |
+| | **BR-19:** Nếu không tìm được tài xế, hệ thống phải thông báo cho khách hàng. |
+| **B9. Doanh nghiệp cần lưu lại thông tin chuyến xe** | **BR-20:** Hệ thống phải lưu thông tin các chuyến xe đã hoàn thành để phục vụ tra cứu lịch sử. |
 
-MVP tập trung vào việc chứng minh hệ thống có thể thực hiện được quy trình:
+BUSINESS
+│
+├── B1. Quản lý khách hàng
+│   ├── BR-01 Đăng ký
+│   ├── BR-02 Đăng nhập
+│   └── BR-03 Cập nhật thông tin
+│
+├── B2. Đặt xe
+│   ├── BR-04 Nhập điểm đón/điểm đến
+│   ├── BR-05 Lựa chọn loại xe
+│   └── BR-06 Gửi yêu cầu đặt xe
+│
+├── B3. Quản lý tài xế
+│   ├── BR-07 Quản lý thông tin tài xế
+│   ├── BR-08 Quản lý phương tiện
+│   └── BR-09 Đăng nhập
+│
+├── B4. Trạng thái tài xế
+│   └── BR-10 Sẵn sàng/Không sẵn sàng
+│
+├── B5. Phân công tài xế
+│   ├── BR-11 Tìm tài xế phù hợp
+│   ├── BR-12 Gửi yêu cầu chuyến
+│   └── BR-13 Ghi nhận tài xế
+│
+├── B6. Thực hiện chuyến
+│   ├── BR-14 Cập nhật trạng thái
+│   └── BR-15 Quản lý trạng thái chuyến
+│
+├── B7. Theo dõi chuyến
+│   ├── BR-16 Theo dõi trạng thái
+│   └── BR-17 Xem thông tin tài xế
+│
+├── B8. Xử lý không có tài xế
+│   ├── BR-18 Tìm tài xế khác
+│   └── BR-19 Thông báo không có tài xế
+│
+└── B9. Lịch sử
+    └── BR-20 Lưu lịch sử chuyến
 
 **Khách hàng lựa chọn xe → gửi yêu cầu → hệ thống tìm tài xế phù hợp → tài xế nhận chuyến → thực hiện chuyến → hoàn thành.**
 
