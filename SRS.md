@@ -585,34 +585,189 @@ Trong giai đoạn này, hệ thống **không yêu cầu lựa chọn tài xế
 | **B6. Doanh nghiệp cần quản lý quá trình thực hiện chuyến xe** | **BR-12:** Hệ thống phải cho phép tài xế cập nhật trạng thái chuyến xe và cho phép khách hàng theo dõi trạng thái cho đến khi chuyến hoàn thành. |
 
 
-KHÁCH HÀNG
-Đăng ký/Đăng nhập
-       ↓
-Nhập điểm đón + điểm đến
-       ↓
-Chọn loại xe
-       ↓
-Gửi yêu cầu
-       ↓
-        HỆ THỐNG
-        Tìm tài xế
-             ↓
-       Có tài xế phù hợp?
-        ↓             ↓
-      Không           Có
-        ↓              ↓
-Thông báo        Gửi yêu cầu
-                  tài xế
-                     ↓
-              Tài xế nhận?
-                ↓       ↓
-              Không     Có
-                ↓        ↓
-          Tìm tài xế    Nhận chuyến
-             khác          ↓
-                            TÀI XẾ
-                       Thực hiện chuyến
-                            ↓
-                    Cập nhật trạng thái
-                            ↓
-                         Hoàn thành
+Đúng. Nếu bạn muốn **mô hình hóa 12 BR bằng code để dán trực tiếp vào Markdown**, phù hợp nhất là dùng **Mermaid `sequenceDiagram`**.
+
+Mình sẽ gộp cả **12 BR vào một quy trình nghiệp vụ xuyên suốt**, với 3 tác nhân chính: **Khách hàng – Hệ thống – Tài xế**.
+
+Bạn copy nguyên khối dưới đây vào file `.md`:
+
+```mermaid
+sequenceDiagram
+    autonumber
+
+    actor KH as Khách hàng
+    participant HT as Hệ thống CAB
+    actor TX as Tài xế
+
+    Note over KH,HT: BP-01 - Quản lý tài khoản khách hàng
+
+    KH->>HT: BR-01: Đăng ký tài khoản
+    HT-->>KH: Thông báo đăng ký thành công
+
+    KH->>HT: BR-02: Đăng nhập
+    HT-->>KH: Xác thực và cho phép truy cập
+
+    KH->>HT: BR-03: Xem / cập nhật thông tin cá nhân
+    HT-->>KH: Hiển thị / lưu thông tin khách hàng
+
+    Note over KH,HT: BP-02 - Tạo yêu cầu đặt xe
+
+    KH->>HT: BR-04: Nhập điểm đón và điểm đến
+    HT-->>KH: Hiển thị thông tin chuyến
+
+    KH->>HT: BR-05: Lựa chọn loại xe
+    HT-->>KH: Xác nhận loại xe đã chọn
+
+    KH->>HT: BR-06: Gửi yêu cầu đặt xe
+    HT-->>KH: Xác nhận tiếp nhận yêu cầu
+
+    Note over TX,HT: Quản lý trạng thái tài xế
+
+    TX->>HT: BR-07: Cập nhật thông tin tài xế và phương tiện
+    HT-->>TX: Lưu thông tin tài xế
+
+    TX->>HT: BR-08: Đăng nhập
+    HT-->>TX: Xác thực và cho phép truy cập
+
+    TX->>HT: BR-09: Cập nhật trạng thái sẵn sàng
+    HT-->>TX: Ghi nhận trạng thái sẵn sàng
+
+    Note over HT,TX: BP-03 - Tìm và phân công tài xế
+
+    HT->>HT: BR-10: Tìm tài xế phù hợp đang sẵn sàng
+    HT->>TX: BR-10: Gửi yêu cầu chuyến xe
+
+    alt Tài xế chấp nhận
+        TX->>HT: Chấp nhận chuyến
+        HT-->>KH: BR-10: Thông báo tài xế đã nhận chuyến
+
+    else Tài xế từ chối / không phản hồi
+        TX->>HT: Từ chối / Không phản hồi
+        HT->>HT: BR-11: Tiếp tục tìm tài xế phù hợp khác
+        HT->>TX: BR-11: Gửi yêu cầu cho tài xế khác
+
+        alt Tài xế khác chấp nhận
+            TX->>HT: Chấp nhận chuyến
+            HT-->>KH: Thông báo tài xế đã nhận chuyến
+        else Không tìm được tài xế
+            HT-->>KH: Thông báo không tìm được tài xế
+        end
+    end
+
+    Note over KH,TX: BP-04 - Thực hiện và theo dõi chuyến xe
+
+    TX->>HT: BR-12: Cập nhật trạng thái chuyến
+    HT-->>KH: BR-12: Hiển thị trạng thái chuyến
+
+    TX->>HT: Cập nhật "Đã đến điểm đón"
+    HT-->>KH: Hiển thị "Đã đến điểm đón"
+
+    TX->>HT: Cập nhật "Đã đón khách"
+    HT-->>KH: Hiển thị "Đã đón khách"
+
+    TX->>HT: Cập nhật "Đang di chuyển"
+    HT-->>KH: Hiển thị "Đang di chuyển"
+
+    KH->>HT: BR-12: Theo dõi trạng thái chuyến
+    HT-->>KH: Hiển thị trạng thái hiện tại
+
+    TX->>HT: Cập nhật "Hoàn thành chuyến"
+    HT-->>KH: Thông báo chuyến đã hoàn thành
+
+    Note over KH,HT: Kết thúc quy trình MVP
+```
+
+### Tuy nhiên, có một điểm cần lưu ý
+
+Nếu giảng viên yêu cầu đúng **“Business Process Modeling dựa trên Business Requirement”**, thì mình khuyên bạn **không ghi `BR-01`, `BR-02`... trực tiếp vào tên các message** khi nộp bản chính thức.
+
+Nên dùng bản sạch như sau:
+
+```mermaid
+sequenceDiagram
+    autonumber
+
+    actor KH as Khách hàng
+    participant HT as Hệ thống CAB
+    actor TX as Tài xế
+
+    Note over KH,HT: Quản lý tài khoản khách hàng
+
+    KH->>HT: Đăng ký tài khoản
+    HT-->>KH: Thông báo đăng ký thành công
+
+    KH->>HT: Đăng nhập
+    HT-->>KH: Xác thực tài khoản
+
+    KH->>HT: Xem / cập nhật thông tin cá nhân
+    HT-->>KH: Lưu thông tin khách hàng
+
+    Note over KH,HT: Tạo yêu cầu đặt xe
+
+    KH->>HT: Nhập điểm đón và điểm đến
+    HT-->>KH: Hiển thị thông tin chuyến
+
+    KH->>HT: Lựa chọn loại xe
+    HT-->>KH: Xác nhận loại xe
+
+    KH->>HT: Gửi yêu cầu đặt xe
+    HT-->>KH: Xác nhận tiếp nhận yêu cầu
+
+    Note over TX,HT: Quản lý tài xế
+
+    TX->>HT: Cập nhật thông tin tài xế và phương tiện
+    HT-->>TX: Lưu thông tin tài xế
+
+    TX->>HT: Đăng nhập
+    HT-->>TX: Xác thực tài khoản
+
+    TX->>HT: Cập nhật trạng thái sẵn sàng
+    HT-->>TX: Ghi nhận trạng thái
+
+    Note over HT,TX: Tìm và phân công tài xế
+
+    HT->>HT: Tìm tài xế phù hợp đang sẵn sàng
+    HT->>TX: Gửi yêu cầu chuyến xe
+
+    alt Tài xế chấp nhận
+        TX->>HT: Chấp nhận chuyến
+        HT-->>KH: Thông báo tài xế đã nhận chuyến
+
+    else Tài xế từ chối / không phản hồi
+        TX->>HT: Từ chối / Không phản hồi
+        HT->>HT: Tìm tài xế phù hợp khác
+        HT->>TX: Gửi yêu cầu cho tài xế khác
+
+        alt Tài xế khác chấp nhận
+            TX->>HT: Chấp nhận chuyến
+            HT-->>KH: Thông báo tài xế đã nhận chuyến
+        else Không tìm được tài xế
+            HT-->>KH: Thông báo không tìm được tài xế
+        end
+    end
+
+    Note over KH,TX: Thực hiện và theo dõi chuyến xe
+
+    TX->>HT: Cập nhật "Đã đến điểm đón"
+    HT-->>KH: Hiển thị trạng thái chuyến
+
+    TX->>HT: Cập nhật "Đã đón khách"
+    HT-->>KH: Hiển thị trạng thái chuyến
+
+    TX->>HT: Cập nhật "Đang di chuyển"
+    HT-->>KH: Hiển thị trạng thái chuyến
+
+    KH->>HT: Theo dõi trạng thái chuyến
+    HT-->>KH: Hiển thị trạng thái hiện tại
+
+    TX->>HT: Cập nhật "Hoàn thành chuyến"
+    HT-->>KH: Thông báo chuyến đã hoàn thành
+
+    HT->>HT: Lưu thông tin chuyến xe
+
+    Note over KH,TX: Kết thúc quy trình
+```
+
+**Mình khuyên dùng bản thứ 2 để nộp**, vì nó thể hiện đúng bản chất **Business Process Modeling**: BR là **cơ sở để hình thành quy trình**, còn sơ đồ thể hiện **các hoạt động thực tế** trong quy trình.
+
+Ngoài ra, với MVP của bạn, **12 BR này là đủ**; không cần đưa thanh toán, GPS nâng cao, báo cáo, notification đa kênh... vào sơ đồ này.
