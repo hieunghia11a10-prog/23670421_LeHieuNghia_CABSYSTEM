@@ -771,3 +771,223 @@ sequenceDiagram
 **Mình khuyên dùng bản thứ 2 để nộp**, vì nó thể hiện đúng bản chất **Business Process Modeling**: BR là **cơ sở để hình thành quy trình**, còn sơ đồ thể hiện **các hoạt động thực tế** trong quy trình.
 
 Ngoài ra, với MVP của bạn, **12 BR này là đủ**; không cần đưa thanh toán, GPS nâng cao, báo cáo, notification đa kênh... vào sơ đồ này.
+
+# FUNCTIONAL REQUIREMENTS – CAB SYSTEM MVP
+
+## 1. Tổng quan
+
+Functional Requirement (FR) mô tả các chức năng mà hệ thống CAB System phải cung cấp để đáp ứng các Business Requirement (BR).
+
+Trong phạm vi MVP, hệ thống tập trung vào hai module:
+
+- Quản lý khách hàng
+- Quản lý tài xế
+
+Các chức năng về thanh toán điện tử, tính cước nâng cao, báo cáo, GPS nâng cao và thông báo đa kênh chưa thuộc phạm vi MVP.
+
+---
+
+# 2. Functional Requirement
+
+## 2.1. Module Quản lý khách hàng
+
+| Mã FR | Business Requirement | Functional Requirement |
+|---|---|---|
+| **FR-01** | BR-01: Đăng ký tài khoản | Hệ thống phải cung cấp chức năng cho khách hàng nhập thông tin cần thiết và đăng ký tài khoản. |
+| **FR-02** | BR-02: Đăng nhập | Hệ thống phải cung cấp chức năng cho khách hàng đăng nhập bằng thông tin tài khoản đã đăng ký. |
+| **FR-03** | BR-03: Quản lý thông tin cá nhân | Hệ thống phải cho phép khách hàng xem và cập nhật thông tin cá nhân. |
+| **FR-04** | BR-04: Nhập điểm đón và điểm đến | Hệ thống phải cho phép khách hàng nhập điểm đón và điểm đến khi tạo yêu cầu đặt xe. |
+| **FR-05** | BR-05: Lựa chọn loại xe | Hệ thống phải hiển thị các loại xe được cung cấp và cho phép khách hàng lựa chọn loại xe khi đặt xe. |
+| **FR-06** | BR-06: Gửi yêu cầu đặt xe | Hệ thống phải cho phép khách hàng kiểm tra thông tin đặt xe và gửi yêu cầu đặt xe. |
+| **FR-07** | BR-12: Theo dõi chuyến xe | Hệ thống phải cho phép khách hàng xem thông tin tài xế và trạng thái hiện tại của chuyến xe. |
+
+---
+
+## 2.2. Module Quản lý tài xế
+
+| Mã FR | Business Requirement | Functional Requirement |
+|---|---|---|
+| **FR-08** | BR-07: Quản lý thông tin tài xế | Hệ thống phải cho phép quản lý xem và cập nhật thông tin tài xế và phương tiện. |
+| **FR-09** | BR-08: Tài xế đăng nhập | Hệ thống phải cung cấp chức năng cho tài xế đăng nhập bằng tài khoản được cấp. |
+| **FR-10** | BR-09: Cập nhật trạng thái sẵn sàng | Hệ thống phải cho phép tài xế chuyển trạng thái giữa sẵn sàng và không sẵn sàng nhận chuyến. |
+| **FR-11** | BR-10: Tìm và gửi yêu cầu chuyến | Hệ thống phải tìm tài xế phù hợp đang ở trạng thái sẵn sàng và gửi yêu cầu chuyến xe cho tài xế. |
+| **FR-12** | BR-11: Tìm tài xế khác | Khi tài xế từ chối hoặc không phản hồi, hệ thống phải tiếp tục tìm và gửi yêu cầu cho tài xế phù hợp khác. |
+| **FR-13** | BR-12: Cập nhật trạng thái chuyến | Hệ thống phải cho phép tài xế cập nhật trạng thái chuyến xe từ khi nhận chuyến đến khi hoàn thành. |
+
+---
+
+# 3. Chi tiết Functional Requirement
+
+## FR-01 – Đăng ký tài khoản khách hàng
+
+**Mô tả:**  
+Hệ thống cho phép khách hàng tạo tài khoản để sử dụng dịch vụ.
+
+**Chức năng:**
+- Nhập thông tin đăng ký.
+- Kiểm tra thông tin bắt buộc.
+- Kiểm tra tài khoản đã tồn tại.
+- Tạo tài khoản nếu thông tin hợp lệ.
+- Thông báo kết quả đăng ký.
+
+---
+
+## FR-02 – Đăng nhập khách hàng
+
+**Mô tả:**  
+Hệ thống xác thực khách hàng trước khi sử dụng các chức năng yêu cầu tài khoản.
+
+**Chức năng:**
+- Nhập thông tin đăng nhập.
+- Kiểm tra thông tin tài khoản.
+- Cho phép truy cập nếu thông tin hợp lệ.
+- Thông báo lỗi nếu thông tin không hợp lệ.
+
+---
+
+## FR-03 – Quản lý thông tin cá nhân
+
+**Mô tả:**  
+Khách hàng có thể xem và cập nhật thông tin cá nhân.
+
+**Chức năng:**
+- Xem thông tin cá nhân.
+- Chỉnh sửa thông tin.
+- Kiểm tra thông tin cập nhật.
+- Lưu thông tin mới.
+
+---
+
+## FR-04 – Nhập thông tin chuyến xe
+
+**Mô tả:**  
+Khách hàng nhập thông tin cần thiết để tạo yêu cầu đặt xe.
+
+**Chức năng:**
+- Nhập điểm đón.
+- Nhập điểm đến.
+- Kiểm tra thông tin bắt buộc.
+- Hiển thị thông tin chuyến đã nhập.
+
+---
+
+## FR-05 – Lựa chọn loại xe
+
+**Mô tả:**  
+Khách hàng lựa chọn loại xe muốn sử dụng.
+
+**Chức năng:**
+- Hiển thị danh sách loại xe.
+- Cho phép khách hàng chọn một loại xe.
+- Ghi nhận loại xe được lựa chọn.
+
+---
+
+## FR-06 – Gửi yêu cầu đặt xe
+
+**Mô tả:**  
+Khách hàng gửi yêu cầu đặt xe sau khi hoàn tất thông tin.
+
+**Chức năng:**
+- Hiển thị thông tin đặt xe.
+- Kiểm tra thông tin đặt xe.
+- Tạo yêu cầu đặt xe.
+- Chuyển yêu cầu sang trạng thái đang tìm tài xế.
+
+---
+
+## FR-07 – Theo dõi chuyến xe
+
+**Mô tả:**  
+Khách hàng theo dõi thông tin và trạng thái chuyến sau khi gửi yêu cầu.
+
+**Chức năng:**
+- Hiển thị trạng thái chuyến.
+- Hiển thị tài xế đã nhận chuyến.
+- Hiển thị trạng thái thực hiện chuyến.
+- Hiển thị trạng thái hoàn thành.
+
+---
+
+## FR-08 – Quản lý thông tin tài xế
+
+**Mô tả:**  
+Hệ thống cho phép quản lý thông tin tài xế và phương tiện.
+
+**Chức năng:**
+- Xem thông tin tài xế.
+- Thêm thông tin tài xế.
+- Cập nhật thông tin tài xế.
+- Cập nhật thông tin phương tiện.
+
+---
+
+## FR-09 – Đăng nhập tài xế
+
+**Mô tả:**  
+Tài xế đăng nhập để sử dụng các chức năng dành cho tài xế.
+
+**Chức năng:**
+- Nhập thông tin đăng nhập.
+- Xác thực tài khoản.
+- Cho phép truy cập nếu hợp lệ.
+
+---
+
+## FR-10 – Cập nhật trạng thái sẵn sàng
+
+**Mô tả:**  
+Tài xế có thể thông báo cho hệ thống biết mình có thể nhận chuyến hay không.
+
+**Chức năng:**
+- Chuyển sang trạng thái "Sẵn sàng".
+- Chuyển sang trạng thái "Không sẵn sàng".
+- Lưu trạng thái hiện tại của tài xế.
+
+---
+
+## FR-11 – Tìm và gửi yêu cầu chuyến
+
+**Mô tả:**  
+Sau khi khách hàng gửi yêu cầu, hệ thống tìm tài xế phù hợp đang sẵn sàng.
+
+**Chức năng:**
+- Nhận yêu cầu đặt xe.
+- Xác định loại xe khách hàng yêu cầu.
+- Tìm tài xế có loại xe phù hợp.
+- Kiểm tra trạng thái sẵn sàng.
+- Gửi yêu cầu chuyến đến tài xế phù hợp.
+
+---
+
+## FR-12 – Tìm tài xế khác
+
+**Mô tả:**  
+Hệ thống xử lý trường hợp tài xế không nhận chuyến.
+
+**Chức năng:**
+- Ghi nhận tài xế từ chối hoặc không phản hồi.
+- Loại tài xế đó khỏi yêu cầu hiện tại.
+- Tiếp tục tìm tài xế phù hợp khác.
+- Gửi yêu cầu cho tài xế tiếp theo.
+- Thông báo khách hàng nếu không tìm được tài xế.
+
+---
+
+## FR-13 – Cập nhật trạng thái chuyến
+
+**Mô tả:**  
+Tài xế cập nhật trạng thái trong quá trình thực hiện chuyến.
+
+**Các trạng thái MVP:**
+
+```text
+Đã nhận chuyến
+      ↓
+Đã đến điểm đón
+      ↓
+Đã đón khách
+      ↓
+Đang di chuyển
+      ↓
+Hoàn thành
