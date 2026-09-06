@@ -153,3 +153,167 @@ Các quy tắc dưới đây chưa được xác định cụ thể trong yêu c
 | **Tổng cộng** | **39** | Bao gồm cả nội dung cần xác nhận |
 
 > **Lưu ý:** BR-Q01 đến BR-Q10 chưa được xem là Business Rule chính thức của hệ thống. Sau khi khách hàng xác nhận, các nội dung này mới được chuẩn hóa thành Business Rule chính thức và đánh số lại nếu cần.
+>
+BUOC 4
+# Business Rules – CAB System MVP
+
+## 1. Phạm vi phát triển MVP
+
+MVP của CAB System tập trung vào hai module chính:
+
+* **Quản lý khách hàng**
+* **Quản lý tài xế**
+
+Mục tiêu của MVP là xây dựng được luồng đặt xe cơ bản và đảm bảo hệ thống có thể vận hành một chuyến xe từ khi khách hàng gửi yêu cầu đến khi chuyến xe hoàn thành.
+
+Trong giai đoạn MVP, hệ thống **chưa yêu cầu thuật toán lựa chọn tài xế tốt nhất**. Hệ thống chỉ cần tìm một tài xế **phù hợp với loại xe và đang sẵn sàng nhận chuyến**.
+
+---
+
+# 2. Business Rules áp dụng cho MVP
+
+## 2.1. Quản lý khách hàng
+
+| Mã        | Business Rule                                                                              |
+| --------- | ------------------------------------------------------------------------------------------ |
+| **BR-01** | Khách hàng và tài xế phải được xác thực trước khi sử dụng các chức năng yêu cầu tài khoản. |
+| **BR-03** | Thông tin cá nhân của khách hàng và tài xế phải được bảo vệ.                               |
+| **BR-04** | Một yêu cầu đặt xe phải có điểm đón, điểm đến và loại xe.                                  |
+| **BR-05** | Sau khi khách hàng gửi yêu cầu, hệ thống phải chuyển yêu cầu sang trạng thái tìm tài xế.   |
+| **BR-06** | Khách hàng phải được thông báo về trạng thái xử lý yêu cầu đặt xe.                         |
+| **BR-15** | Khi chuyến hoàn thành, hệ thống phải ghi nhận thông tin chuyến để phục vụ lưu lịch sử.     |
+| **BR-22** | Khách hàng phải được thông báo khi yêu cầu đặt xe được tiếp nhận.                          |
+| **BR-23** | Khách hàng phải được thông báo khi tài xế nhận chuyến.                                     |
+| **BR-24** | Khách hàng phải được thông báo khi tài xế đến điểm đón.                                    |
+| **BR-25** | Khách hàng phải được thông báo khi chuyến xe hoàn thành.                                   |
+
+---
+
+## 2.2. Quản lý tài xế
+
+| Mã        | Business Rule                                                                                                                          |
+| --------- | -------------------------------------------------------------------------------------------------------------------------------------- |
+| **BR-01** | Khách hàng và tài xế phải được xác thực trước khi sử dụng các chức năng yêu cầu tài khoản.                                             |
+| **BR-03** | Thông tin cá nhân của khách hàng và tài xế phải được bảo vệ.                                                                           |
+| **BR-07** | Hệ thống chỉ xem xét các tài xế đang ở trạng thái sẵn sàng nhận chuyến.                                                                |
+| **BR-08** | Tài xế được lựa chọn phải phù hợp với loại xe mà khách hàng yêu cầu.                                                                   |
+| **BR-10** | Nếu tài xế được đề xuất không phản hồi hoặc từ chối chuyến, hệ thống phải tiếp tục tìm tài xế khác.                                    |
+| **BR-12** | Khi tài xế chấp nhận chuyến, hệ thống phải ghi nhận tài xế được phân công cho chuyến đó.                                               |
+| **BR-13** | Tài xế phải cập nhật trạng thái chuyến trong quá trình thực hiện.                                                                      |
+| **BR-14** | Các trạng thái chính của chuyến gồm: tìm tài xế, đã phân công tài xế, tài xế đến điểm đón, đã đón khách, đang di chuyển và hoàn thành. |
+| **BR-16** | Hệ thống phải lưu thông tin vị trí của tài xế để hỗ trợ tìm tài xế và dự kiến thời gian đến.                                           |
+| **BR-26** | Tài xế phải được thông báo khi có chuyến mới hoặc có thay đổi liên quan đến chuyến đang thực hiện.                                     |
+
+---
+
+# 3. Quy tắc tìm tài xế trong MVP
+
+Để giới hạn phạm vi phát triển, chức năng tìm tài xế chỉ thực hiện ở mức cơ bản.
+
+| Mã            | Business Rule                                                                                               |
+| ------------- | ----------------------------------------------------------------------------------------------------------- |
+| **BR-MVP-01** | Hệ thống chỉ tìm tài xế đang ở trạng thái sẵn sàng nhận chuyến.                                             |
+| **BR-MVP-02** | Tài xế được chọn phải phù hợp với loại xe khách hàng yêu cầu.                                               |
+| **BR-MVP-03** | Hệ thống chỉ cần tìm được một tài xế phù hợp để tiếp tục chuyến xe, không yêu cầu lựa chọn tài xế tốt nhất. |
+| **BR-MVP-04** | Nếu tài xế từ chối hoặc không phản hồi, hệ thống có thể tiếp tục gửi yêu cầu đến tài xế phù hợp khác.       |
+| **BR-MVP-05** | Nếu không tìm được tài xế, hệ thống phải thông báo cho khách hàng.                                          |
+
+> **Lưu ý:** Các BR-MVP-01 đến BR-MVP-05 là cách cụ thể hóa các BR-07, BR-08, BR-10, BR-11 và phạm vi MVP. Không phát triển thuật toán xếp hạng hoặc tối ưu tài xế trong giai đoạn này.
+
+---
+
+# 4. Luồng nghiệp vụ tối thiểu của MVP
+
+MVP phải đảm bảo được luồng nghiệp vụ sau:
+
+```text
+Khách hàng đăng nhập
+        ↓
+Nhập điểm đón + điểm đến + loại xe
+        ↓
+Gửi yêu cầu đặt xe
+        ↓
+Hệ thống tìm tài xế phù hợp
+        ↓
+Có tài xế?
+   ┌────┴────┐
+   │         │
+  Có        Không
+   │         │
+   ↓         ↓
+Tài xế     Thông báo
+nhận chuyến không tìm thấy tài xế
+   │
+   ↓
+Tài xế đến điểm đón
+   ↓
+Đã đón khách
+   ↓
+Đang di chuyển
+   ↓
+Hoàn thành chuyến
+   ↓
+Lưu lịch sử chuyến
+```
+
+---
+
+# 5. Các Business Rules chưa triển khai trong MVP
+
+Các quy tắc sau được giữ lại cho các giai đoạn tiếp theo:
+
+| Mã        | Business Rule                                                                               | Giai đoạn |
+| --------- | ------------------------------------------------------------------------------------------- | --------- |
+| **BR-02** | Chỉ người dùng có quyền phù hợp mới được thực hiện các thao tác quản trị.                   | Sau MVP   |
+| **BR-09** | Hệ thống phải ưu tiên tài xế phù hợp và gần điểm đón của khách hàng.                        | Sau MVP   |
+| **BR-17** | Hệ thống xác định số tiền khách hàng phải trả dựa trên loại dịch vụ và thông tin chuyến đi. | Sau MVP   |
+| **BR-18** | Thanh toán bằng tiền mặt hoặc phương thức thanh toán điện tử.                               | Sau MVP   |
+| **BR-19** | Không lưu thông tin nhạy cảm của thẻ hoặc tài khoản thanh toán trực tiếp trên CAB.          | Sau MVP   |
+| **BR-20** | Thanh toán điện tử thông qua nhà cung cấp bên ngoài.                                        | Sau MVP   |
+| **BR-21** | Xử lý trường hợp thanh toán điện tử thất bại.                                               | Sau MVP   |
+| **BR-27** | Nhân viên vận hành theo dõi chuyến đang diễn ra và trạng thái tài xế.                       | Sau MVP   |
+| **BR-28** | Nhân viên vận hành hỗ trợ xử lý chuyến bị lỗi.                                              | Sau MVP   |
+| **BR-29** | Lưu vết các thao tác quản trị quan trọng.                                                   | Sau MVP   |
+
+---
+
+# 6. Tổng kết phạm vi MVP
+
+| Nội dung                     | Trạng thái          |
+| ---------------------------- | ------------------- |
+| Quản lý khách hàng           | **MVP**             |
+| Quản lý tài xế               | **MVP**             |
+| Đăng ký / đăng nhập          | **MVP**             |
+| Quản lý thông tin khách hàng | **MVP**             |
+| Quản lý thông tin tài xế     | **MVP**             |
+| Đặt xe                       | **MVP**             |
+| Tìm tài xế cơ bản            | **MVP**             |
+| Tối ưu tài xế tốt nhất       | **Không thuộc MVP** |
+| Phân công tài xế             | **MVP**             |
+| Cập nhật trạng thái chuyến   | **MVP**             |
+| Theo dõi chuyến              | **MVP**             |
+| Thông báo cơ bản             | **MVP**             |
+| Lịch sử chuyến               | **MVP**             |
+| Tính cước nâng cao           | **Sau MVP**         |
+| Thanh toán điện tử           | **Sau MVP**         |
+| Báo cáo vận hành             | **Sau MVP**         |
+| Phân tích hiệu suất tài xế   | **Sau MVP**         |
+
+---
+
+## Kết luận
+
+**MVP không cần triển khai toàn bộ 29 Business Rules ban đầu.**
+
+Phạm vi phát triển giai đoạn này chỉ tập trung vào:
+
+> **Quản lý khách hàng + Quản lý tài xế + luồng đặt và thực hiện chuyến cơ bản.**
+
+Trong đó chức năng tìm tài xế chỉ cần đáp ứng:
+
+> **Có tài xế phù hợp → gửi yêu cầu → tài xế nhận → thực hiện chuyến.**
+
+Chưa cần:
+
+> **xếp hạng → tính điểm → tối ưu khoảng cách → chọn tài xế tốt nhất → thuật toán dispatch nâng cao.**
+
