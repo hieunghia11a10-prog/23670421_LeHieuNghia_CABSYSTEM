@@ -553,79 +553,33 @@ BUSINESS
 **Khách hàng lựa chọn xe → gửi yêu cầu → hệ thống tìm tài xế phù hợp → tài xế nhận chuyến → thực hiện chuyến → hoàn thành.**
 
 Trong giai đoạn này, hệ thống **không yêu cầu lựa chọn tài xế tốt nhất**, mà chỉ cần tìm được **một tài xế phù hợp và sẵn sàng** để đảm bảo quy trình đặt xe hoạt động.
-# BUSINESS PROCESS MODELING – CAB SYSTEM MVP
 
-## 1. Mục đích
 
-Business Process Modeling được xây dựng dựa trên các Business Requirement (BR) đã xác định nhằm mô tả cách các hoạt động nghiệp vụ diễn ra trong hệ thống CAB System.
+# Business – Business Requirement (BR) – CAB System MVP
 
-Trong phạm vi MVP, hệ thống tập trung vào hai module chính:
+## 1. Quản lý khách hàng
 
-- Quản lý khách hàng
-- Quản lý tài xế
+| Business | Business Requirement (BR) |
+|---|---|
+| **B1. Doanh nghiệp cần quản lý tài khoản khách hàng** | **BR-01:** Hệ thống phải cho phép khách hàng đăng ký tài khoản. |
+| | **BR-02:** Hệ thống phải cho phép khách hàng đăng nhập. |
+| | **BR-03:** Hệ thống phải cho phép khách hàng xem và cập nhật thông tin cá nhân. |
+| **B2. Doanh nghiệp cần khách hàng tạo yêu cầu đặt xe** | **BR-04:** Hệ thống phải cho phép khách hàng nhập điểm đón và điểm đến. |
+| | **BR-05:** Hệ thống phải cho phép khách hàng lựa chọn loại xe. |
+| | **BR-06:** Hệ thống phải cho phép khách hàng gửi yêu cầu đặt xe. |
 
-Quy trình nghiệp vụ trọng tâm là quy trình từ khi khách hàng đăng nhập, tạo yêu cầu đặt xe, hệ thống tìm tài xế phù hợp, tài xế tiếp nhận chuyến, thực hiện chuyến và lưu lại thông tin chuyến xe.
+## 2. Quản lý tài xế
 
----
+| Business | Business Requirement (BR) |
+|---|---|
+| **B3. Doanh nghiệp cần quản lý thông tin tài xế** | **BR-07:** Hệ thống phải cho phép quản lý thông tin tài xế và phương tiện. |
+| | **BR-08:** Hệ thống phải cho phép tài xế đăng nhập. |
+| **B4. Doanh nghiệp cần biết tài xế có thể nhận chuyến** | **BR-09:** Hệ thống phải cho phép tài xế cập nhật trạng thái sẵn sàng hoặc không sẵn sàng nhận chuyến. |
 
-# 2. Các quy trình nghiệp vụ
+## 3. Đặt xe và thực hiện chuyến
 
-Dựa trên các Business Requirement, hệ thống được mô hình hóa thành các quy trình nghiệp vụ chính sau:
-
-| Mã quy trình | Tên quy trình | Business Requirement liên quan |
-|---|---|---|
-| **BP-01** | Đăng ký và quản lý thông tin khách hàng | BR-01, BR-02, BR-03 |
-| **BP-02** | Đặt xe và phân công tài xế | BR-04, BR-05, BR-06, BR-10, BR-11, BR-12, BR-13, BR-18, BR-19 |
-| **BP-03** | Thực hiện và theo dõi chuyến xe | BR-14, BR-15, BR-16, BR-17, BR-20 |
-
----
-
-# 3. Business Process BP-01 – Đăng ký và quản lý thông tin khách hàng
-
-## 3.1. Mục đích
-
-Cho phép khách hàng tạo tài khoản, đăng nhập và cập nhật thông tin cá nhân để sử dụng dịch vụ đặt xe.
-
-## 3.2. Business Requirement liên quan
-
-- **BR-01:** Hệ thống phải cho phép khách hàng đăng ký tài khoản.
-- **BR-02:** Hệ thống phải cho phép khách hàng đăng nhập.
-- **BR-03:** Hệ thống phải cho phép khách hàng xem và cập nhật thông tin cá nhân.
-
-## 3.3. Quy trình
-
-1. Khách hàng chọn chức năng đăng ký hoặc đăng nhập.
-2. Nếu chưa có tài khoản, khách hàng nhập thông tin đăng ký.
-3. Hệ thống kiểm tra thông tin đăng ký.
-4. Nếu thông tin hợp lệ, hệ thống tạo tài khoản cho khách hàng.
-5. Khách hàng đăng nhập vào hệ thống.
-6. Hệ thống xác thực thông tin đăng nhập.
-7. Khách hàng có thể xem và cập nhật thông tin cá nhân.
-8. Hệ thống lưu thông tin đã cập nhật.
-
-## 3.4. Mô hình quy trình
-
-```mermaid
-flowchart TD
-    A([Bắt đầu]) --> B[Đăng ký / Đăng nhập]
-
-    B --> C{Đã có tài khoản?}
-
-    C -->|Chưa| D[Nhập thông tin đăng ký]
-    D --> E[Kiểm tra thông tin]
-    E --> F{Thông tin hợp lệ?}
-
-    F -->|Không| D
-    F -->|Có| G[Tạo tài khoản]
-
-    C -->|Có| H[Nhập thông tin đăng nhập]
-    G --> H
-
-    H --> I[Xác thực tài khoản]
-    I --> J{Đăng nhập thành công?}
-
-    J -->|Không| H
-    J -->|Có| K[Xem / cập nhật thông tin cá nhân]
-
-    K --> L[Lưu thông tin]
-    L --> M([Kết thúc])
+| Business | Business Requirement (BR) |
+|---|---|
+| **B5. Doanh nghiệp cần phân công tài xế cho yêu cầu đặt xe** | **BR-10:** Hệ thống phải tìm và gửi yêu cầu chuyến xe đến tài xế phù hợp đang sẵn sàng nhận chuyến. |
+| | **BR-11:** Nếu tài xế từ chối hoặc không phản hồi, hệ thống phải tiếp tục tìm tài xế phù hợp khác. |
+| **B6. Doanh nghiệp cần quản lý quá trình thực hiện chuyến xe** | **BR-12:** Hệ thống phải cho phép tài xế cập nhật trạng thái chuyến xe và cho phép khách hàng theo dõi trạng thái cho đến khi chuyến hoàn thành. |
