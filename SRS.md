@@ -553,3 +553,63 @@ BUSINESS
 **Khách hàng lựa chọn xe → gửi yêu cầu → hệ thống tìm tài xế phù hợp → tài xế nhận chuyến → thực hiện chuyến → hoàn thành.**
 
 Trong giai đoạn này, hệ thống **không yêu cầu lựa chọn tài xế tốt nhất**, mà chỉ cần tìm được **một tài xế phù hợp và sẵn sàng** để đảm bảo quy trình đặt xe hoạt động.
+
+┌──────────────┐
+│   Khách hàng │
+└──────┬───────┘
+       │
+       ▼
+┌─────────────────────────┐
+│ Đăng ký / Đăng nhập     │
+│ và cập nhật thông tin   │
+└───────────┬─────────────┘
+            │
+            ▼
+┌─────────────────────────┐
+│ Nhập điểm đón, điểm đến │
+│ và chọn loại xe         │
+└───────────┬─────────────┘
+            │
+            ▼
+┌─────────────────────────┐
+│      Gửi yêu cầu đặt xe │
+└───────────┬─────────────┘
+            │
+            ▼
+┌─────────────────────────┐
+│ Hệ thống tìm tài xế     │
+│ phù hợp, đang sẵn sàng  │
+└───────────┬─────────────┘
+            │
+            ▼
+       Có tài xế?
+       /       \
+     Không       Có
+      │           │
+      ▼           ▼
+Thông báo     Gửi yêu cầu
+không có      cho tài xế
+tài xế           │
+                 ▼
+           Tài xế chấp nhận?
+             /          \
+           Không         Có
+             │            │
+             ▼            ▼
+      Tìm tài xế khác   Ghi nhận
+                        tài xế
+                           │
+                           ▼
+                 ┌────────────────┐
+                 │ Thực hiện chuyến│
+                 │ và cập nhật     │
+                 │ trạng thái      │
+                 └───────┬────────┘
+                         │
+                         ▼
+                 ┌────────────────┐
+                 │ Chuyến hoàn tất│
+                 └───────┬────────┘
+                         │
+                         ▼
+                 Lưu lịch sử chuyến
