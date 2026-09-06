@@ -1299,3 +1299,116 @@ flowchart LR
     TX --> SEND
 
     UC09 -. "<<include>>" .-> FIND
+
+# Tiêu chí chấp nhận (Acceptance Criteria – AC)
+
+## 1. Quản lý khách hàng
+
+### AC-01 – Đăng ký tài khoản khách hàng
+
+| STT | Tiêu chí chấp nhận |
+|---|---|
+| 1 | Khách hàng nhập đầy đủ các thông tin bắt buộc và gửi yêu cầu đăng ký. |
+| 2 | Hệ thống kiểm tra thông tin đăng ký hợp lệ. |
+| 3 | Nếu thông tin hợp lệ, hệ thống tạo tài khoản khách hàng và thông báo đăng ký thành công. |
+| 4 | Nếu thông tin không hợp lệ hoặc tài khoản đã tồn tại, hệ thống thông báo lỗi và yêu cầu khách hàng điều chỉnh. |
+
+### AC-02 – Đăng nhập khách hàng
+
+| STT | Tiêu chí chấp nhận |
+|---|---|
+| 1 | Khách hàng nhập thông tin đăng nhập. |
+| 2 | Hệ thống kiểm tra thông tin tài khoản. |
+| 3 | Nếu thông tin chính xác, hệ thống cho phép khách hàng đăng nhập. |
+| 4 | Nếu thông tin không chính xác, hệ thống thông báo đăng nhập thất bại. |
+
+### AC-03 – Cập nhật thông tin khách hàng
+
+| STT | Tiêu chí chấp nhận |
+|---|---|
+| 1 | Khách hàng đã đăng nhập có thể xem thông tin cá nhân. |
+| 2 | Khách hàng có thể chỉnh sửa các thông tin được phép cập nhật. |
+| 3 | Hệ thống kiểm tra tính hợp lệ của thông tin trước khi lưu. |
+| 4 | Nếu thông tin hợp lệ, hệ thống lưu thông tin mới và hiển thị kết quả cập nhật. |
+
+---
+
+## 2. Đặt xe và theo dõi chuyến xe
+
+### AC-04 – Đặt xe
+
+| STT | Tiêu chí chấp nhận |
+|---|---|
+| 1 | Khách hàng nhập điểm đón và điểm đến. |
+| 2 | Hệ thống hiển thị các loại xe có thể lựa chọn. |
+| 3 | Khách hàng lựa chọn một loại xe. |
+| 4 | Hệ thống kiểm tra thông tin đặt xe. |
+| 5 | Nếu thông tin hợp lệ, hệ thống tạo yêu cầu đặt xe. |
+| 6 | Hệ thống thông báo cho khách hàng rằng yêu cầu đặt xe đã được tiếp nhận. |
+
+### AC-05 – Theo dõi chuyến xe
+
+| STT | Tiêu chí chấp nhận |
+|---|---|
+| 1 | Khách hàng có thể xem chuyến xe đã đặt. |
+| 2 | Hệ thống hiển thị tài xế được phân công khi tìm được tài xế. |
+| 3 | Hệ thống hiển thị trạng thái hiện tại của chuyến xe. |
+| 4 | Khi tài xế cập nhật trạng thái, thông tin hiển thị cho khách hàng được cập nhật tương ứng. |
+| 5 | Khi chuyến xe hoàn thành, hệ thống hiển thị trạng thái "Hoàn thành". |
+
+---
+
+## 3. Quản lý tài xế
+
+### AC-06 – Quản lý thông tin tài xế
+
+| STT | Tiêu chí chấp nhận |
+|---|---|
+| 1 | Nhân viên vận hành có thể xem danh sách tài xế. |
+| 2 | Nhân viên vận hành có thể thêm thông tin tài xế. |
+| 3 | Nhân viên vận hành có thể cập nhật thông tin tài xế. |
+| 4 | Thông tin phương tiện của tài xế được lưu cùng thông tin tài xế. |
+| 5 | Hệ thống kiểm tra tính hợp lệ của thông tin trước khi lưu. |
+
+### AC-07 – Đăng nhập tài xế
+
+| STT | Tiêu chí chấp nhận |
+|---|---|
+| 1 | Tài xế nhập thông tin đăng nhập. |
+| 2 | Hệ thống kiểm tra thông tin tài khoản tài xế. |
+| 3 | Nếu thông tin chính xác, hệ thống cho phép tài xế đăng nhập. |
+| 4 | Nếu thông tin không chính xác, hệ thống thông báo đăng nhập thất bại. |
+
+### AC-08 – Cập nhật trạng thái sẵn sàng
+
+| STT | Tiêu chí chấp nhận |
+|---|---|
+| 1 | Tài xế đã đăng nhập có thể xem trạng thái hiện tại. |
+| 2 | Tài xế có thể chuyển sang trạng thái "Sẵn sàng nhận chuyến". |
+| 3 | Tài xế có thể chuyển sang trạng thái "Không sẵn sàng". |
+| 4 | Hệ thống lưu và sử dụng trạng thái mới khi tìm tài xế. |
+
+---
+
+## 4. Tiếp nhận và thực hiện chuyến xe
+
+### AC-09 – Tiếp nhận chuyến xe
+
+| STT | Tiêu chí chấp nhận |
+|---|---|
+| 1 | Khi có yêu cầu đặt xe, hệ thống tìm tài xế phù hợp đang sẵn sàng nhận chuyến. |
+| 2 | Hệ thống gửi yêu cầu chuyến xe đến tài xế phù hợp. |
+| 3 | Nếu tài xế chấp nhận, hệ thống gán tài xế cho chuyến xe. |
+| 4 | Nếu tài xế từ chối hoặc không phản hồi, hệ thống tiếp tục tìm tài xế phù hợp khác. |
+| 5 | Nếu không tìm được tài xế, hệ thống thông báo cho khách hàng. |
+
+### AC-10 – Cập nhật trạng thái chuyến xe
+
+| STT | Tiêu chí chấp nhận |
+|---|---|
+| 1 | Tài xế được phân công có thể cập nhật trạng thái chuyến xe. |
+| 2 | Hệ thống cho phép cập nhật trạng thái theo đúng trình tự nghiệp vụ. |
+| 3 | Các trạng thái gồm: "Đã nhận chuyến", "Đã đến điểm đón", "Đã đón khách", "Đang di chuyển" và "Hoàn thành". |
+| 4 | Sau mỗi lần cập nhật, hệ thống lưu trạng thái mới của chuyến xe. |
+| 5 | Khách hàng có thể xem trạng thái mới của chuyến xe. |
+| 6 | Khi tài xế cập nhật "Hoàn thành", hệ thống xác nhận chuyến xe đã hoàn tất. |
