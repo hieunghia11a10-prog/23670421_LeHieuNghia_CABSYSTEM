@@ -1,0 +1,501 @@
+openapi: 3.0.4
+
+info:
+  title: CAB System - Vehicle API
+  version: 1.0.0
+  description: API quản lý phương tiện trong hệ thống CAB System
+
+servers:
+  - url: http://localhost:3000
+    description: Local server
+
+tags:
+  - name: Vehicle
+    description: Quản lý phương tiện
+
+paths:
+
+  /api/vehicles:
+    get:
+      tags:
+        - Vehicle
+      summary: Xem danh sách phương tiện
+      description: Lấy danh sách các phương tiện trong hệ thống.
+      security:
+        - bearerAuth: []
+
+      parameters:
+        - name: vehicleType
+          in: query
+          required: false
+          description: Loại phương tiện
+          schema:
+            type: string
+            enum:
+              - CAR_4_SEATS
+              - CAR_7_SEATS
+              - MOTORBIKE
+            example: CAR_4_SEATS
+
+        - name: status
+          in: query
+          required: false
+          description: Trạng thái phương tiện
+          schema:
+            type: string
+            enum:
+              - ACTIVE
+              - INACTIVE
+            example: ACTIVE
+
+      responses:
+        '200':
+          description: Lấy danh sách phương tiện thành công
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Vehicle'
+
+        '401':
+          description: Chưa đăng nhập hoặc token không hợp lệ
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+        '403':
+          description: Không có quyền thực hiện
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+
+    post:
+      tags:
+        - Vehicle
+      summary: Thêm phương tiện
+      description: Thêm một phương tiện mới vào hệ thống.
+      security:
+        - bearerAuth: []
+
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateVehicleRequest'
+
+      responses:
+        '201':
+          description: Thêm phương tiện thành công
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: Thêm phương tiện thành công
+                  data:
+                    $ref: '#/components/schemas/Vehicle'
+
+        '400':
+          description: Dữ liệu phương tiện không hợp lệ
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+        '401':
+          description: Chưa đăng nhập hoặc token không hợp lệ
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+        '403':
+          description: Không có quyền thêm phương tiện
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+
+  /api/vehicles/{id}:
+    get:
+      tags:
+        - Vehicle
+      summary: Xem thông tin phương tiện
+      security:
+        - bearerAuth: []
+
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: ID phương tiện
+          schema:
+            type: integer
+            example: 1
+
+      responses:
+        '200':
+          description: Lấy thông tin phương tiện thành công
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  data:
+                    $ref: '#/components/schemas/Vehicle'
+
+        '401':
+          description: Chưa đăng nhập hoặc token không hợp lệ
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+        '403':
+          description: Không có quyền thực hiện
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+        '404':
+          description: Không tìm thấy phương tiện
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+
+    put:
+      tags:
+        - Vehicle
+      summary: Cập nhật thông tin phương tiện
+      security:
+        - bearerAuth: []
+
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: ID phương tiện
+          schema:
+            type: integer
+            example: 1
+
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateVehicleRequest'
+
+      responses:
+        '200':
+          description: Cập nhật phương tiện thành công
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: Cập nhật phương tiện thành công
+                  data:
+                    $ref: '#/components/schemas/Vehicle'
+
+        '400':
+          description: Dữ liệu không hợp lệ
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+        '401':
+          description: Chưa đăng nhập hoặc token không hợp lệ
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+        '403':
+          description: Không có quyền cập nhật phương tiện
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+        '404':
+          description: Không tìm thấy phương tiện
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+
+    delete:
+      tags:
+        - Vehicle
+      summary: Xóa phương tiện
+      description: Xóa phương tiện khỏi hệ thống.
+      security:
+        - bearerAuth: []
+
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: ID phương tiện
+          schema:
+            type: integer
+            example: 1
+
+      responses:
+        '200':
+          description: Xóa phương tiện thành công
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessResponse'
+
+        '401':
+          description: Chưa đăng nhập hoặc token không hợp lệ
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+        '403':
+          description: Không có quyền xóa phương tiện
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+        '404':
+          description: Không tìm thấy phương tiện
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+
+  /api/vehicles/{id}/status:
+    put:
+      tags:
+        - Vehicle
+      summary: Cập nhật trạng thái phương tiện
+      description: Cập nhật trạng thái hoạt động của phương tiện.
+      security:
+        - bearerAuth: []
+
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: ID phương tiện
+          schema:
+            type: integer
+            example: 1
+
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/VehicleStatusRequest'
+
+      responses:
+        '200':
+          description: Cập nhật trạng thái thành công
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessResponse'
+
+        '400':
+          description: Trạng thái không hợp lệ
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+        '401':
+          description: Chưa đăng nhập hoặc token không hợp lệ
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+        '403':
+          description: Không có quyền cập nhật trạng thái
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+        '404':
+          description: Không tìm thấy phương tiện
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+
+components:
+
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+
+
+  schemas:
+
+    Vehicle:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 1
+        driverId:
+          type: integer
+          example: 10
+        licensePlate:
+          type: string
+          example: "51A-123.45"
+        vehicleType:
+          type: string
+          enum:
+            - CAR_4_SEATS
+            - CAR_7_SEATS
+            - MOTORBIKE
+          example: CAR_4_SEATS
+        brand:
+          type: string
+          example: Toyota
+        model:
+          type: string
+          example: Vios
+        color:
+          type: string
+          example: White
+        status:
+          type: string
+          enum:
+            - ACTIVE
+            - INACTIVE
+          example: ACTIVE
+
+
+    CreateVehicleRequest:
+      type: object
+      required:
+        - driverId
+        - licensePlate
+        - vehicleType
+      properties:
+        driverId:
+          type: integer
+          example: 10
+        licensePlate:
+          type: string
+          example: "51A-123.45"
+        vehicleType:
+          type: string
+          enum:
+            - CAR_4_SEATS
+            - CAR_7_SEATS
+            - MOTORBIKE
+          example: CAR_4_SEATS
+        brand:
+          type: string
+          example: Toyota
+        model:
+          type: string
+          example: Vios
+        color:
+          type: string
+          example: White
+
+
+    UpdateVehicleRequest:
+      type: object
+      properties:
+        licensePlate:
+          type: string
+          example: "51A-123.45"
+        vehicleType:
+          type: string
+          enum:
+            - CAR_4_SEATS
+            - CAR_7_SEATS
+            - MOTORBIKE
+          example: CAR_4_SEATS
+        brand:
+          type: string
+          example: Toyota
+        model:
+          type: string
+          example: Vios
+        color:
+          type: string
+          example: White
+
+
+    VehicleStatusRequest:
+      type: object
+      required:
+        - status
+      properties:
+        status:
+          type: string
+          enum:
+            - ACTIVE
+            - INACTIVE
+          example: ACTIVE
+
+
+    SuccessResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+          example: true
+        message:
+          type: string
+          example: Thao tác thành công
+
+
+    ErrorResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+          example: false
+        message:
+          type: string
+          example: Không tìm thấy phương tiện
