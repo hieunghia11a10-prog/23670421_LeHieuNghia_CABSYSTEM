@@ -1,1 +1,444 @@
+openapi: 3.0.4
 
+info:
+  title: CAB System - Booking API
+  description: API quản lý yêu cầu đặt xe trong hệ thống CAB System
+  version: 1.0.0
+
+servers:
+  - url: http://localhost:3000
+    description: Local server
+
+tags:
+  - name: Booking
+    description: Quản lý yêu cầu đặt xe
+
+paths:
+
+  /api/bookings:
+    post:
+      tags:
+        - Booking
+      summary: Tạo yêu cầu đặt xe
+      description: Khách hàng tạo yêu cầu đặt xe với điểm đón, điểm đến và loại xe.
+      operationId: createBooking
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateBookingRequest'
+      responses:
+        '201':
+          description: Tạo booking thành công
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Booking'
+        '400':
+          description: Dữ liệu đặt xe không hợp lệ
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: Chưa đăng nhập hoặc token không hợp lệ
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  /api/bookings/{id}:
+    get:
+      tags:
+        - Booking
+      summary: Xem chi tiết booking
+      operationId: getBookingById
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: ID của booking
+          schema:
+            type: integer
+            example: 101
+      responses:
+        '200':
+          description: Lấy thông tin booking thành công
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Booking'
+        '401':
+          description: Chưa đăng nhập hoặc token không hợp lệ
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: Không tìm thấy booking
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  /api/bookings/{id}/cancel:
+    put:
+      tags:
+        - Booking
+      summary: Hủy booking
+      description: Khách hàng hủy yêu cầu đặt xe.
+      operationId: cancelBooking
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: ID của booking
+          schema:
+            type: integer
+            example: 101
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CancelBookingRequest'
+      responses:
+        '200':
+          description: Hủy booking thành công
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Booking'
+        '400':
+          description: Không thể hủy booking
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: Chưa đăng nhập hoặc token không hợp lệ
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: Không tìm thấy booking
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  /api/bookings/{id}/drivers:
+    get:
+      tags:
+        - Booking
+      summary: Xem danh sách tài xế phù hợp
+      description: Lấy danh sách tài xế đang sẵn sàng để thực hiện booking.
+      operationId: findDriversForBooking
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: ID của booking
+          schema:
+            type: integer
+            example: 101
+      responses:
+        '200':
+          description: Lấy danh sách tài xế thành công
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Driver'
+        '401':
+          description: Chưa đăng nhập hoặc token không hợp lệ
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: Không tìm thấy booking
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  /api/bookings/{id}/assign:
+    post:
+      tags:
+        - Booking
+      summary: Gán tài xế cho booking
+      description: Nhân viên vận hành gán một tài xế cho booking.
+      operationId: assignDriver
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: ID của booking
+          schema:
+            type: integer
+            example: 101
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AssignDriverRequest'
+      responses:
+        '200':
+          description: Gán tài xế thành công
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Booking'
+        '400':
+          description: Không thể gán tài xế
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: Chưa đăng nhập hoặc token không hợp lệ
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: Không tìm thấy booking hoặc tài xế
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  /api/bookings/{id}/accept:
+    post:
+      tags:
+        - Booking
+      summary: Tài xế chấp nhận booking
+      description: Tài xế chấp nhận yêu cầu đặt xe đã được gán.
+      operationId: acceptBooking
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: ID của booking
+          schema:
+            type: integer
+            example: 101
+      responses:
+        '200':
+          description: Tài xế đã chấp nhận booking
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Booking'
+        '400':
+          description: Booking không thể được chấp nhận
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: Chưa đăng nhập hoặc token không hợp lệ
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: Không tìm thấy booking
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  /api/bookings/{id}/reject:
+    post:
+      tags:
+        - Booking
+      summary: Tài xế từ chối booking
+      description: Tài xế từ chối yêu cầu đặt xe đã được gán.
+      operationId: rejectBooking
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: ID của booking
+          schema:
+            type: integer
+            example: 101
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RejectBookingRequest'
+      responses:
+        '200':
+          description: Tài xế đã từ chối booking
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Booking'
+        '400':
+          description: Booking không thể bị từ chối
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: Chưa đăng nhập hoặc token không hợp lệ
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: Không tìm thấy booking
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+components:
+
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+
+  schemas:
+
+    CreateBookingRequest:
+      type: object
+      required:
+        - pickupAddress
+        - destinationAddress
+        - vehicleType
+      properties:
+        pickupAddress:
+          type: string
+          description: Địa chỉ đón khách
+          example: 123 Nguyen Trai, Quan 1, TP.HCM
+        destinationAddress:
+          type: string
+          description: Địa chỉ trả khách
+          example: 456 Dien Bien Phu, Quan Binh Thanh, TP.HCM
+        vehicleType:
+          type: string
+          description: Loại xe khách hàng yêu cầu
+          example: CAR_4_SEATS
+
+    CancelBookingRequest:
+      type: object
+      properties:
+        reason:
+          type: string
+          description: Lý do hủy booking
+          example: Khách hàng thay đổi kế hoạch
+
+    AssignDriverRequest:
+      type: object
+      required:
+        - driverId
+      properties:
+        driverId:
+          type: integer
+          description: ID của tài xế được gán
+          example: 25
+
+    RejectBookingRequest:
+      type: object
+      properties:
+        reason:
+          type: string
+          description: Lý do tài xế từ chối
+          example: Không thể nhận chuyến
+
+    Booking:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 101
+        customerId:
+          type: integer
+          example: 10
+        driverId:
+          type: integer
+          nullable: true
+          example: 25
+        pickupAddress:
+          type: string
+          example: 123 Nguyen Trai, Quan 1, TP.HCM
+        destinationAddress:
+          type: string
+          example: 456 Dien Bien Phu, Quan Binh Thanh, TP.HCM
+        vehicleType:
+          type: string
+          example: CAR_4_SEATS
+        status:
+          type: string
+          enum:
+            - SEARCHING_DRIVER
+            - DRIVER_ASSIGNED
+            - DRIVER_ACCEPTED
+            - CANCELLED
+            - COMPLETED
+          example: SEARCHING_DRIVER
+        createdAt:
+          type: string
+          format: date-time
+          example: 2026-09-13T10:30:00Z
+
+    Driver:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 25
+        fullName:
+          type: string
+          example: Tran Van C
+        phone:
+          type: string
+          example: "0901234569"
+        vehicleType:
+          type: string
+          example: CAR_4_SEATS
+        licensePlate:
+          type: string
+          example: 59A-12345
+        status:
+          type: string
+          enum:
+            - AVAILABLE
+            - BUSY
+            - OFFLINE
+          example: AVAILABLE
+
+    ErrorResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+          example: false
+        message:
+          type: string
+          example: Request failed
