@@ -1,0 +1,311 @@
+openapi: 3.0.4
+
+info:
+  title: CAB System - Customer API
+  description: API quản lý khách hàng của hệ thống CAB System
+  version: 1.0.0
+
+servers:
+  - url: http://localhost:3000
+    description: Local Development Server
+
+tags:
+  - name: Customer
+    description: Quản lý thông tin khách hàng
+
+components:
+
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+
+  schemas:
+
+    Customer:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 1
+
+        fullName:
+          type: string
+          example: Nguyen Van A
+
+        phone:
+          type: string
+          example: "0901234567"
+
+        email:
+          type: string
+          format: email
+          example: nguyenvana@gmail.com
+
+        address:
+          type: string
+          example: 123 Nguyen Trai, Quan 1
+
+
+    CustomerUpdateRequest:
+      type: object
+      properties:
+
+        fullName:
+          type: string
+          description: Họ và tên khách hàng
+          example: Nguyen Van A
+
+        email:
+          type: string
+          format: email
+          description: Email khách hàng
+          example: nguyenvana@gmail.com
+
+        address:
+          type: string
+          description: Địa chỉ khách hàng
+          example: 123 Nguyen Trai, Quan 1
+
+
+    Trip:
+      type: object
+      properties:
+
+        id:
+          type: integer
+          example: 5001
+
+        bookingId:
+          type: integer
+          example: 1001
+
+        customerId:
+          type: integer
+          example: 1
+
+        driverId:
+          type: integer
+          example: 2
+
+        status:
+          type: string
+          example: COMPLETED
+
+
+    ErrorResponse:
+      type: object
+      properties:
+
+        success:
+          type: boolean
+          example: false
+
+        message:
+          type: string
+          example: Không tìm thấy khách hàng
+
+
+paths:
+
+  # =========================================================
+  # 1. GET CUSTOMER INFORMATION
+  # =========================================================
+
+  /api/customers/{id}:
+
+    get:
+      tags:
+        - Customer
+
+      summary: Xem thông tin khách hàng
+
+      description: >
+        Lấy thông tin chi tiết của một khách hàng
+        dựa trên mã khách hàng.
+
+      security:
+        - bearerAuth: []
+
+      parameters:
+
+        - name: id
+          in: path
+          required: true
+
+          description: Mã khách hàng
+
+          schema:
+            type: integer
+
+          example: 1
+
+      responses:
+
+        '200':
+          description: Lấy thông tin khách hàng thành công
+
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Customer'
+
+        '401':
+          description: Chưa đăng nhập hoặc JWT không hợp lệ
+
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+        '404':
+          description: Không tìm thấy khách hàng
+
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+
+  # =========================================================
+  # 2. UPDATE CUSTOMER
+  # =========================================================
+
+    put:
+      tags:
+        - Customer
+
+      summary: Cập nhật thông tin khách hàng
+
+      description: >
+        Cập nhật họ tên, email hoặc địa chỉ
+        của khách hàng.
+
+      security:
+        - bearerAuth: []
+
+      parameters:
+
+        - name: id
+          in: path
+          required: true
+
+          description: Mã khách hàng
+
+          schema:
+            type: integer
+
+          example: 1
+
+      requestBody:
+
+        required: true
+
+        content:
+
+          application/json:
+
+            schema:
+              $ref: '#/components/schemas/CustomerUpdateRequest'
+
+            example:
+              fullName: Nguyen Van B
+              email: nguyenvanb@gmail.com
+              address: 456 Le Loi, Quan 1
+
+      responses:
+
+        '200':
+          description: Cập nhật thông tin khách hàng thành công
+
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Customer'
+
+        '400':
+          description: Dữ liệu cập nhật không hợp lệ
+
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+        '401':
+          description: Chưa đăng nhập hoặc JWT không hợp lệ
+
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+        '404':
+          description: Không tìm thấy khách hàng
+
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+
+  # =========================================================
+  # 3. CUSTOMER TRIP HISTORY
+  # =========================================================
+
+  /api/customers/{id}/trips:
+
+    get:
+      tags:
+        - Customer
+
+      summary: Xem lịch sử chuyến đi
+
+      description: >
+        Lấy danh sách các chuyến đi của khách hàng.
+
+      security:
+        - bearerAuth: []
+
+      parameters:
+
+        - name: id
+          in: path
+          required: true
+
+          description: Mã khách hàng
+
+          schema:
+            type: integer
+
+          example: 1
+
+      responses:
+
+        '200':
+          description: Lấy lịch sử chuyến đi thành công
+
+          content:
+            application/json:
+
+              schema:
+                type: array
+
+                items:
+                  $ref: '#/components/schemas/Trip'
+
+        '401':
+          description: Chưa đăng nhập hoặc JWT không hợp lệ
+
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+        '404':
+          description: Không tìm thấy khách hàng
+
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
