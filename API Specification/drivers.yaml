@@ -1,4 +1,4 @@
-```yaml
+
 openapi: 3.0.4
 
 info:
@@ -459,4 +459,4 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
-```
+
