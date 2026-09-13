@@ -1,0 +1,481 @@
+openapi: 3.0.4
+
+info:
+  title: CAB System - Operator API
+  description: API dành cho Nhân viên vận hành trong hệ thống CAB System
+  version: 1.0.0
+
+servers:
+  - url: http://localhost:3000
+    description: Local server
+
+tags:
+  - name: Operator
+    description: Quản lý và điều phối chuyến xe
+
+paths:
+
+  /api/operators/{id}:
+    get:
+      tags:
+        - Operator
+      summary: Xem thông tin nhân viên vận hành
+      operationId: getOperatorById
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: ID của nhân viên vận hành
+          schema:
+            type: integer
+            example: 1
+      responses:
+        '200':
+          description: Lấy thông tin nhân viên thành công
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Operator'
+        '401':
+          description: Chưa đăng nhập hoặc token không hợp lệ
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: Không tìm thấy nhân viên vận hành
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+    put:
+      tags:
+        - Operator
+      summary: Cập nhật thông tin nhân viên vận hành
+      operationId: updateOperator
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: ID của nhân viên vận hành
+          schema:
+            type: integer
+            example: 1
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/OperatorUpdateRequest'
+      responses:
+        '200':
+          description: Cập nhật thông tin thành công
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Operator'
+        '400':
+          description: Dữ liệu không hợp lệ
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: Chưa đăng nhập hoặc token không hợp lệ
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: Không tìm thấy nhân viên vận hành
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  /api/operators/bookings:
+    get:
+      tags:
+        - Operator
+      summary: Xem danh sách booking
+      description: Nhân viên vận hành xem danh sách các yêu cầu đặt xe để theo dõi và điều phối.
+      operationId: getOperatorBookings
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: status
+          in: query
+          required: false
+          description: Lọc booking theo trạng thái
+          schema:
+            type: string
+            enum:
+              - SEARCHING_DRIVER
+              - DRIVER_ASSIGNED
+              - DRIVER_ACCEPTED
+              - CANCELLED
+              - COMPLETED
+            example: SEARCHING_DRIVER
+        - name: page
+          in: query
+          required: false
+          description: Số trang
+          schema:
+            type: integer
+            minimum: 1
+            default: 1
+            example: 1
+        - name: limit
+          in: query
+          required: false
+          description: Số lượng booking trên mỗi trang
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 100
+            default: 20
+            example: 20
+      responses:
+        '200':
+          description: Lấy danh sách booking thành công
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Booking'
+                  page:
+                    type: integer
+                    example: 1
+                  limit:
+                    type: integer
+                    example: 20
+                  total:
+                    type: integer
+                    example: 50
+        '401':
+          description: Chưa đăng nhập hoặc token không hợp lệ
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  /api/operators/bookings/{id}:
+    get:
+      tags:
+        - Operator
+      summary: Xem chi tiết booking
+      operationId: getOperatorBookingById
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: ID của booking
+          schema:
+            type: integer
+            example: 101
+      responses:
+        '200':
+          description: Lấy thông tin booking thành công
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Booking'
+        '401':
+          description: Chưa đăng nhập hoặc token không hợp lệ
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: Không tìm thấy booking
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  /api/operators/bookings/{id}/drivers:
+    get:
+      tags:
+        - Operator
+      summary: Xem danh sách tài xế phù hợp
+      description: Hiển thị các tài xế đang sẵn sàng để nhân viên vận hành lựa chọn và điều phối.
+      operationId: getAvailableDrivers
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: ID của booking
+          schema:
+            type: integer
+            example: 101
+      responses:
+        '200':
+          description: Lấy danh sách tài xế thành công
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Driver'
+        '401':
+          description: Chưa đăng nhập hoặc token không hợp lệ
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: Không tìm thấy booking
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  /api/operators/bookings/{id}/assign:
+    post:
+      tags:
+        - Operator
+      summary: Điều phối tài xế cho booking
+      description: Nhân viên vận hành chọn một tài xế phù hợp và gán tài xế cho booking.
+      operationId: assignDriverToBooking
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: ID của booking
+          schema:
+            type: integer
+            example: 101
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AssignDriverRequest'
+      responses:
+        '200':
+          description: Điều phối tài xế thành công
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Booking'
+        '400':
+          description: Không thể điều phối tài xế
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: Chưa đăng nhập hoặc token không hợp lệ
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: Không tìm thấy booking hoặc tài xế
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  /api/operators/bookings/{id}/cancel:
+    put:
+      tags:
+        - Operator
+      summary: Hủy booking
+      description: Nhân viên vận hành hủy yêu cầu đặt xe khi cần thiết.
+      operationId: cancelBookingByOperator
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: ID của booking
+          schema:
+            type: integer
+            example: 101
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CancelBookingRequest'
+      responses:
+        '200':
+          description: Hủy booking thành công
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Booking'
+        '400':
+          description: Không thể hủy booking
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: Chưa đăng nhập hoặc token không hợp lệ
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: Không tìm thấy booking
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+components:
+
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+
+  schemas:
+
+    Operator:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 1
+        fullName:
+          type: string
+          example: Nguyen Van B
+        phone:
+          type: string
+          example: "0901234568"
+        email:
+          type: string
+          format: email
+          example: operator@cabsystem.com
+        role:
+          type: string
+          example: OPERATOR
+        status:
+          type: string
+          enum:
+            - ACTIVE
+            - INACTIVE
+          example: ACTIVE
+
+    OperatorUpdateRequest:
+      type: object
+      properties:
+        fullName:
+          type: string
+          example: Nguyen Van B
+        phone:
+          type: string
+          example: "0901234568"
+        email:
+          type: string
+          format: email
+          example: operator@cabsystem.com
+
+    Booking:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 101
+        customerId:
+          type: integer
+          example: 10
+        driverId:
+          type: integer
+          nullable: true
+          example: 25
+        pickupAddress:
+          type: string
+          example: 123 Nguyen Trai, Quan 1, TP.HCM
+        destinationAddress:
+          type: string
+          example: 456 Dien Bien Phu, Quan Binh Thanh, TP.HCM
+        vehicleType:
+          type: string
+          example: CAR_4_SEATS
+        status:
+          type: string
+          enum:
+            - SEARCHING_DRIVER
+            - DRIVER_ASSIGNED
+            - DRIVER_ACCEPTED
+            - CANCELLED
+            - COMPLETED
+          example: DRIVER_ASSIGNED
+        createdAt:
+          type: string
+          format: date-time
+          example: 2026-09-13T10:30:00Z
+
+    Driver:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 25
+        fullName:
+          type: string
+          example: Tran Van C
+        phone:
+          type: string
+          example: "0901234569"
+        vehicleType:
+          type: string
+          example: CAR_4_SEATS
+        licensePlate:
+          type: string
+          example: 59A-12345
+        status:
+          type: string
+          enum:
+            - AVAILABLE
+            - BUSY
+            - OFFLINE
+          example: AVAILABLE
+
+    AssignDriverRequest:
+      type: object
+      required:
+        - driverId
+      properties:
+        driverId:
+          type: integer
+          description: ID của tài xế được điều phối
+          example: 25
+
+    CancelBookingRequest:
+      type: object
+      properties:
+        reason:
+          type: string
+          example: Không tìm được tài xế phù hợp
+
+    ErrorResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+          example: false
+        message:
+          type: string
+          example: Request failed
