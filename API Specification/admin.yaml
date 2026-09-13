@@ -1,0 +1,487 @@
+openapi: 3.0.4
+
+info:
+  title: CAB System - Admin API
+  version: 1.0.0
+  description: API quản trị tài khoản và phân quyền hệ thống CAB System
+
+servers:
+  - url: http://localhost:3000
+    description: Local server
+
+tags:
+  - name: Admin
+    description: Quản lý tài khoản và phân quyền hệ thống
+
+paths:
+
+  /api/admin/users:
+    get:
+      tags:
+        - Admin
+      summary: Xem danh sách người dùng
+      description: Quản trị viên xem danh sách tài khoản trong hệ thống.
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: role
+          in: query
+          required: false
+          schema:
+            type: string
+            enum:
+              - CUSTOMER
+              - DRIVER
+              - OPERATOR
+              - ADMIN
+          description: Lọc người dùng theo vai trò
+
+        - name: status
+          in: query
+          required: false
+          schema:
+            type: string
+            enum:
+              - ACTIVE
+              - INACTIVE
+          description: Lọc người dùng theo trạng thái
+
+      responses:
+        '200':
+          description: Lấy danh sách người dùng thành công
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/User'
+
+        '401':
+          description: Chưa đăng nhập hoặc token không hợp lệ
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+        '403':
+          description: Không có quyền quản trị
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+
+  /api/admin/users/{id}:
+    get:
+      tags:
+        - Admin
+      summary: Xem thông tin người dùng
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: ID người dùng
+          schema:
+            type: integer
+            example: 1
+
+      responses:
+        '200':
+          description: Lấy thông tin người dùng thành công
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  data:
+                    $ref: '#/components/schemas/User'
+
+        '401':
+          description: Chưa đăng nhập hoặc token không hợp lệ
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+        '403':
+          description: Không có quyền quản trị
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+        '404':
+          description: Không tìm thấy người dùng
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+
+  /api/admin/users/{id}/status:
+    put:
+      tags:
+        - Admin
+      summary: Cập nhật trạng thái tài khoản
+      description: Quản trị viên kích hoạt hoặc vô hiệu hóa tài khoản người dùng.
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: ID người dùng
+          schema:
+            type: integer
+            example: 1
+
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserStatusRequest'
+
+      responses:
+        '200':
+          description: Cập nhật trạng thái thành công
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessResponse'
+
+        '400':
+          description: Trạng thái không hợp lệ
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+        '401':
+          description: Chưa đăng nhập hoặc token không hợp lệ
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+        '403':
+          description: Không có quyền quản trị
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+        '404':
+          description: Không tìm thấy người dùng
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+
+  /api/admin/users/{id}/role:
+    put:
+      tags:
+        - Admin
+      summary: Cập nhật vai trò người dùng
+      description: Quản trị viên thay đổi vai trò của tài khoản.
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: ID người dùng
+          schema:
+            type: integer
+            example: 1
+
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserRoleRequest'
+
+      responses:
+        '200':
+          description: Cập nhật vai trò thành công
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessResponse'
+
+        '400':
+          description: Vai trò không hợp lệ
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+        '401':
+          description: Chưa đăng nhập hoặc token không hợp lệ
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+        '403':
+          description: Không có quyền quản trị
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+        '404':
+          description: Không tìm thấy người dùng
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+
+  /api/admin/drivers:
+    get:
+      tags:
+        - Admin
+      summary: Xem danh sách tài xế
+      description: Quản trị viên xem danh sách tài xế trong hệ thống.
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: status
+          in: query
+          required: false
+          schema:
+            type: string
+            enum:
+              - AVAILABLE
+              - BUSY
+              - OFFLINE
+          description: Lọc tài xế theo trạng thái
+
+      responses:
+        '200':
+          description: Lấy danh sách tài xế thành công
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Driver'
+
+        '401':
+          description: Chưa đăng nhập hoặc token không hợp lệ
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+        '403':
+          description: Không có quyền quản trị
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+
+  /api/admin/customers:
+    get:
+      tags:
+        - Admin
+      summary: Xem danh sách khách hàng
+      description: Quản trị viên xem danh sách khách hàng trong hệ thống.
+      security:
+        - bearerAuth: []
+
+      responses:
+        '200':
+          description: Lấy danh sách khách hàng thành công
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Customer'
+
+        '401':
+          description: Chưa đăng nhập hoặc token không hợp lệ
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+        '403':
+          description: Không có quyền quản trị
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+
+components:
+
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+
+
+  schemas:
+
+    User:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 1
+        fullName:
+          type: string
+          example: Nguyen Van A
+        phone:
+          type: string
+          example: "0901234567"
+        email:
+          type: string
+          format: email
+          example: nguyenvana@gmail.com
+        role:
+          type: string
+          enum:
+            - CUSTOMER
+            - DRIVER
+            - OPERATOR
+            - ADMIN
+          example: CUSTOMER
+        status:
+          type: string
+          enum:
+            - ACTIVE
+            - INACTIVE
+          example: ACTIVE
+
+
+    UserStatusRequest:
+      type: object
+      required:
+        - status
+      properties:
+        status:
+          type: string
+          enum:
+            - ACTIVE
+            - INACTIVE
+          example: ACTIVE
+
+
+    UserRoleRequest:
+      type: object
+      required:
+        - role
+      properties:
+        role:
+          type: string
+          enum:
+            - CUSTOMER
+            - DRIVER
+            - OPERATOR
+            - ADMIN
+          example: DRIVER
+
+
+    Driver:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 10
+        fullName:
+          type: string
+          example: Tran Van B
+        phone:
+          type: string
+          example: "0912345678"
+        email:
+          type: string
+          format: email
+          example: tranvanb@gmail.com
+        vehicleType:
+          type: string
+          example: CAR_4_SEATS
+        status:
+          type: string
+          enum:
+            - AVAILABLE
+            - BUSY
+            - OFFLINE
+          example: AVAILABLE
+
+
+    Customer:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 20
+        fullName:
+          type: string
+          example: Le Van C
+        phone:
+          type: string
+          example: "0987654321"
+        email:
+          type: string
+          format: email
+          example: levanC@gmail.com
+        status:
+          type: string
+          enum:
+            - ACTIVE
+            - INACTIVE
+          example: ACTIVE
+
+
+    SuccessResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+          example: true
+        message:
+          type: string
+          example: Thao tác thành công
+
+
+    ErrorResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+          example: false
+        message:
+          type: string
+          example: Không có quyền thực hiện thao tác
