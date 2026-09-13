@@ -1,0 +1,462 @@
+```yaml
+openapi: 3.0.4
+
+info:
+  title: CAB System - Driver API
+  description: API quản lý tài xế của hệ thống CAB System
+  version: 1.0.0
+
+servers:
+  - url: http://localhost:3000
+    description: Local Development Server
+
+tags:
+  - name: Driver
+    description: Quản lý thông tin, trạng thái và vị trí tài xế
+
+components:
+
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+
+  schemas:
+
+    Driver:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 2
+
+        fullName:
+          type: string
+          example: Tran Van B
+
+        phone:
+          type: string
+          example: "0912345678"
+
+        vehicleType:
+          type: string
+          example: CAR_4_SEATS
+
+        vehiclePlate:
+          type: string
+          example: "51A-12345"
+
+        status:
+          type: string
+          enum:
+            - AVAILABLE
+            - BUSY
+            - OFFLINE
+          example: AVAILABLE
+
+        latitude:
+          type: number
+          format: double
+          example: 10.7769
+
+        longitude:
+          type: number
+          format: double
+          example: 106.7009
+
+
+    DriverUpdateRequest:
+      type: object
+      properties:
+
+        fullName:
+          type: string
+          description: Họ và tên tài xế
+          example: Tran Van B
+
+        phone:
+          type: string
+          description: Số điện thoại tài xế
+          example: "0912345678"
+
+        vehicleType:
+          type: string
+          description: Loại phương tiện
+          example: CAR_4_SEATS
+
+        vehiclePlate:
+          type: string
+          description: Biển số xe
+          example: "51A-12345"
+
+
+    DriverStatusRequest:
+      type: object
+      required:
+        - status
+
+      properties:
+
+        status:
+          type: string
+          enum:
+            - AVAILABLE
+            - BUSY
+            - OFFLINE
+          description: Trạng thái hiện tại của tài xế
+          example: AVAILABLE
+
+
+    DriverLocationRequest:
+      type: object
+      required:
+        - latitude
+        - longitude
+
+      properties:
+
+        latitude:
+          type: number
+          format: double
+          description: Vĩ độ hiện tại của tài xế
+          example: 10.7769
+
+        longitude:
+          type: number
+          format: double
+          description: Kinh độ hiện tại của tài xế
+          example: 106.7009
+
+
+    SuccessResponse:
+      type: object
+      properties:
+
+        success:
+          type: boolean
+          example: true
+
+        message:
+          type: string
+          example: Cập nhật thành công
+
+
+    ErrorResponse:
+      type: object
+      properties:
+
+        success:
+          type: boolean
+          example: false
+
+        message:
+          type: string
+          example: Không tìm thấy tài xế
+
+
+paths:
+
+  # =========================================================
+  # 1. GET DRIVER
+  # =========================================================
+
+  /api/drivers/{id}:
+
+    get:
+      tags:
+        - Driver
+
+      summary: Xem thông tin tài xế
+
+      description: >
+        Lấy thông tin chi tiết của tài xế
+        dựa trên mã tài xế.
+
+      security:
+        - bearerAuth: []
+
+      parameters:
+
+        - name: id
+          in: path
+          required: true
+
+          description: Mã tài xế
+
+          schema:
+            type: integer
+
+          example: 2
+
+      responses:
+
+        '200':
+          description: Lấy thông tin tài xế thành công
+
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Driver'
+
+        '401':
+          description: Chưa đăng nhập hoặc JWT không hợp lệ
+
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+        '404':
+          description: Không tìm thấy tài xế
+
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+
+    # =======================================================
+    # 2. UPDATE DRIVER
+    # =======================================================
+
+    put:
+      tags:
+        - Driver
+
+      summary: Cập nhật thông tin tài xế
+
+      description: >
+        Cập nhật thông tin cá nhân và thông tin
+        phương tiện của tài xế.
+
+      security:
+        - bearerAuth: []
+
+      parameters:
+
+        - name: id
+          in: path
+          required: true
+
+          description: Mã tài xế
+
+          schema:
+            type: integer
+
+          example: 2
+
+      requestBody:
+
+        required: true
+
+        content:
+
+          application/json:
+
+            schema:
+              $ref: '#/components/schemas/DriverUpdateRequest'
+
+            example:
+              fullName: Tran Van C
+              phone: "0987654321"
+              vehicleType: CAR_4_SEATS
+              vehiclePlate: "51A-67890"
+
+      responses:
+
+        '200':
+          description: Cập nhật thông tin tài xế thành công
+
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Driver'
+
+        '400':
+          description: Dữ liệu cập nhật không hợp lệ
+
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+        '401':
+          description: Chưa đăng nhập hoặc JWT không hợp lệ
+
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+        '404':
+          description: Không tìm thấy tài xế
+
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+
+  # =========================================================
+  # 3. UPDATE DRIVER STATUS
+  # =========================================================
+
+  /api/drivers/{id}/status:
+
+    put:
+      tags:
+        - Driver
+
+      summary: Cập nhật trạng thái tài xế
+
+      description: >
+        Cập nhật trạng thái hoạt động của tài xế.
+        Tài xế có thể ở trạng thái AVAILABLE, BUSY hoặc OFFLINE.
+
+      security:
+        - bearerAuth: []
+
+      parameters:
+
+        - name: id
+          in: path
+          required: true
+
+          description: Mã tài xế
+
+          schema:
+            type: integer
+
+          example: 2
+
+      requestBody:
+
+        required: true
+
+        content:
+
+          application/json:
+
+            schema:
+              $ref: '#/components/schemas/DriverStatusRequest'
+
+            example:
+              status: AVAILABLE
+
+      responses:
+
+        '200':
+          description: Cập nhật trạng thái thành công
+
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessResponse'
+
+        '400':
+          description: Trạng thái không hợp lệ
+
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+        '401':
+          description: Chưa đăng nhập hoặc JWT không hợp lệ
+
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+        '404':
+          description: Không tìm thấy tài xế
+
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+
+  # =========================================================
+  # 4. UPDATE DRIVER LOCATION
+  # =========================================================
+
+  /api/drivers/{id}/location:
+
+    put:
+      tags:
+        - Driver
+
+      summary: Cập nhật vị trí tài xế
+
+      description: >
+        Cập nhật tọa độ hiện tại của tài xế
+        thông qua latitude và longitude.
+
+      security:
+        - bearerAuth: []
+
+      parameters:
+
+        - name: id
+          in: path
+          required: true
+
+          description: Mã tài xế
+
+          schema:
+            type: integer
+
+          example: 2
+
+      requestBody:
+
+        required: true
+
+        content:
+
+          application/json:
+
+            schema:
+              $ref: '#/components/schemas/DriverLocationRequest'
+
+            example:
+              latitude: 10.7769
+              longitude: 106.7009
+
+      responses:
+
+        '200':
+          description: Cập nhật vị trí thành công
+
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessResponse'
+
+        '400':
+          description: Tọa độ không hợp lệ
+
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+        '401':
+          description: Chưa đăng nhập hoặc JWT không hợp lệ
+
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+        '404':
+          description: Không tìm thấy tài xế
+
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+```
