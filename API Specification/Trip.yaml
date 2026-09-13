@@ -1,0 +1,186 @@
+openapi: 3.0.4
+
+info:
+  title: CAB System - Trip API
+  description: API quản lý chuyến đi trong hệ thống CAB System
+  version: 1.0.0
+
+servers:
+  - url: http://localhost:3000
+    description: Local server
+
+tags:
+  - name: Trip
+    description: Quản lý trạng thái chuyến đi
+
+paths:
+
+  /api/trips/{id}:
+    get:
+      tags:
+        - Trip
+      summary: Xem thông tin chuyến đi
+      description: Lấy thông tin chi tiết của một chuyến đi.
+      operationId: getTripById
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: ID của chuyến đi
+          schema:
+            type: integer
+            example: 1001
+      responses:
+        '200':
+          description: Lấy thông tin chuyến đi thành công
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Trip'
+        '401':
+          description: Chưa đăng nhập hoặc token không hợp lệ
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: Không tìm thấy chuyến đi
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  /api/trips/{id}/status:
+    put:
+      tags:
+        - Trip
+      summary: Cập nhật trạng thái chuyến đi
+      description: Tài xế cập nhật trạng thái của chuyến đi trong quá trình thực hiện.
+      operationId: updateTripStatus
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: ID của chuyến đi
+          schema:
+            type: integer
+            example: 1001
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateTripStatusRequest'
+      responses:
+        '200':
+          description: Cập nhật trạng thái chuyến đi thành công
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Trip'
+        '400':
+          description: Trạng thái chuyến đi không hợp lệ
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: Chưa đăng nhập hoặc token không hợp lệ
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: Không tìm thấy chuyến đi
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+components:
+
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+
+  schemas:
+
+    Trip:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 1001
+        bookingId:
+          type: integer
+          example: 101
+        customerId:
+          type: integer
+          example: 10
+        driverId:
+          type: integer
+          example: 25
+        pickupAddress:
+          type: string
+          example: 123 Nguyen Trai, Quan 1, TP.HCM
+        destinationAddress:
+          type: string
+          example: 456 Dien Bien Phu, Quan Binh Thanh, TP.HCM
+        vehicleType:
+          type: string
+          example: CAR_4_SEATS
+        status:
+          type: string
+          enum:
+            - DRIVER_ON_THE_WAY
+            - DRIVER_ARRIVED
+            - IN_PROGRESS
+            - COMPLETED
+            - CANCELLED
+          example: IN_PROGRESS
+        startedAt:
+          type: string
+          format: date-time
+          nullable: true
+          example: 2026-09-13T10:45:00Z
+        completedAt:
+          type: string
+          format: date-time
+          nullable: true
+          example: 2026-09-13T11:15:00Z
+        createdAt:
+          type: string
+          format: date-time
+          example: 2026-09-13T10:30:00Z
+
+    UpdateTripStatusRequest:
+      type: object
+      required:
+        - status
+      properties:
+        status:
+          type: string
+          description: Trạng thái mới của chuyến đi
+          enum:
+            - DRIVER_ON_THE_WAY
+            - DRIVER_ARRIVED
+            - IN_PROGRESS
+            - COMPLETED
+            - CANCELLED
+          example: IN_PROGRESS
+
+    ErrorResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+          example: false
+        message:
+          type: string
+          example: Request failed
