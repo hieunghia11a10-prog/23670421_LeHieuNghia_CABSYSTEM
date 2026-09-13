@@ -1,1 +1,160 @@
+openapi: 3.0.3
 
+info:
+  title: CAB System - Authentication API
+  version: 1.0.0
+  description: Authentication APIs for CAB System
+
+servers:
+  - url: http://localhost:3000
+    description: Local API Server
+
+tags:
+  - name: Authentication
+    description: Authentication and account APIs
+
+components:
+
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+
+  schemas:
+
+    RegisterRequest:
+      type: object
+      required:
+        - fullName
+        - phone
+        - password
+      properties:
+        fullName:
+          type: string
+          example: Nguyen Van A
+        phone:
+          type: string
+          example: "0901234567"
+        email:
+          type: string
+          format: email
+          example: nguyenvana@gmail.com
+        password:
+          type: string
+          format: password
+          example: "123456"
+        role:
+          type: string
+          example: CUSTOMER
+
+    LoginRequest:
+      type: object
+      required:
+        - phone
+        - password
+      properties:
+        phone:
+          type: string
+          example: "0901234567"
+        password:
+          type: string
+          format: password
+          example: "123456"
+
+paths:
+
+  /api/auth/register:
+
+    post:
+      tags:
+        - Authentication
+      summary: Đăng ký tài khoản
+      description: Tạo tài khoản mới cho khách hàng hoặc tài khoản có role được chỉ định.
+
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/RegisterRequest"
+
+      responses:
+        "201":
+          description: Đăng ký thành công
+
+        "400":
+          description: Thiếu thông tin bắt buộc
+
+        "409":
+          description: Số điện thoại đã tồn tại
+
+        "500":
+          description: Lỗi server
+
+
+  /api/auth/login:
+
+    post:
+      tags:
+        - Authentication
+      summary: Đăng nhập
+      description: Đăng nhập bằng số điện thoại và mật khẩu.
+
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/LoginRequest"
+
+      responses:
+        "200":
+          description: Đăng nhập thành công
+
+        "401":
+          description: Số điện thoại hoặc mật khẩu không đúng
+
+        "500":
+          description: Lỗi server
+
+
+  /api/auth/logout:
+
+    post:
+      tags:
+        - Authentication
+      summary: Đăng xuất
+      description: Đăng xuất tài khoản hiện tại.
+
+      security:
+        - bearerAuth: []
+
+      responses:
+        "200":
+          description: Đăng xuất thành công
+
+        "401":
+          description: Token không hợp lệ hoặc đã hết hạn
+
+
+  /api/auth/me:
+
+    get:
+      tags:
+        - Authentication
+      summary: Lấy thông tin tài khoản hiện tại
+      description: Trả về thông tin người dùng dựa trên JWT token.
+
+      security:
+        - bearerAuth: []
+
+      responses:
+        "200":
+          description: Lấy thông tin thành công
+
+        "401":
+          description: Chưa đăng nhập hoặc token không hợp lệ
+
+        "404":
+          description: Không tìm thấy người dùng
