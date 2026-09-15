@@ -543,6 +543,303 @@ sequenceDiagram
         UI-->>KH: Yêu cầu nhập lại thông tin
     end
 ```
+
+### 2. BP-02
+
+```md
+### Sequence Diagram 02 – BP-02: Đăng nhập khách hàng
+
+```mermaid
+sequenceDiagram
+    actor KH as Khách hàng
+    participant UI as Giao diện
+    participant SYS as Hệ thống
+    participant DB as CSDL
+
+    KH->>UI: Nhập tài khoản và mật khẩu
+    UI->>SYS: Gửi thông tin đăng nhập
+    SYS->>DB: Kiểm tra tài khoản
+    DB-->>SYS: Trả về thông tin tài khoản
+
+    alt Thông tin đăng nhập đúng
+        SYS->>SYS: Xác thực người dùng
+        SYS-->>UI: Đăng nhập thành công
+        UI-->>KH: Hiển thị trang chính
+    else Thông tin đăng nhập sai
+        SYS-->>UI: Thông báo đăng nhập thất bại
+        UI-->>KH: Yêu cầu nhập lại thông tin
+    end
+```
+
+### 3. BP-03
+
+```md
+### Sequence Diagram 03 – BP-03: Cập nhật thông tin khách hàng
+
+```mermaid
+sequenceDiagram
+    actor KH as Khách hàng
+    participant UI as Giao diện
+    participant SYS as Hệ thống
+    participant DB as CSDL
+
+    KH->>UI: Chọn cập nhật thông tin
+    UI->>SYS: Yêu cầu thông tin khách hàng
+    SYS->>DB: Lấy thông tin khách hàng
+    DB-->>SYS: Trả về thông tin khách hàng
+    SYS-->>UI: Hiển thị thông tin hiện tại
+    UI-->>KH: Hiển thị form cập nhật
+
+    KH->>UI: Nhập thông tin mới
+    UI->>SYS: Gửi thông tin cập nhật
+    SYS->>SYS: Kiểm tra dữ liệu
+
+    alt Dữ liệu hợp lệ
+        SYS->>DB: Cập nhật thông tin khách hàng
+        DB-->>SYS: Cập nhật thành công
+        SYS-->>UI: Thông báo cập nhật thành công
+        UI-->>KH: Hiển thị thông tin mới
+    else Dữ liệu không hợp lệ
+        SYS-->>UI: Thông báo dữ liệu không hợp lệ
+        UI-->>KH: Yêu cầu nhập lại thông tin
+    end
+```
+
+### 4. BP-04
+
+```md
+### Sequence Diagram 04 – BP-04: Tạo yêu cầu đặt xe
+
+```mermaid
+sequenceDiagram
+    actor KH as Khách hàng
+    participant UI as Giao diện
+    participant SYS as Hệ thống
+    participant DB as CSDL
+
+    KH->>UI: Nhập điểm đón
+    KH->>UI: Nhập điểm đến
+    KH->>UI: Chọn loại xe
+    UI->>SYS: Gửi yêu cầu đặt xe
+    SYS->>SYS: Kiểm tra thông tin đặt xe
+
+    alt Thông tin hợp lệ
+        SYS->>DB: Lưu yêu cầu chuyến đi
+        DB-->>SYS: Lưu yêu cầu thành công
+        SYS-->>UI: Xác nhận yêu cầu đặt xe
+        UI-->>KH: Hiển thị "Đang tìm tài xế"
+    else Thông tin không hợp lệ
+        SYS-->>UI: Thông báo lỗi
+        UI-->>KH: Yêu cầu nhập lại thông tin
+    end
+```
+
+### 5. BP-05
+
+```md
+### Sequence Diagram 05 – BP-05: Đăng nhập và quản lý tài xế
+
+```mermaid
+sequenceDiagram
+    actor TX as Tài xế
+    participant UI as Giao diện
+    participant SYS as Hệ thống
+    participant DB as CSDL
+
+    TX->>UI: Nhập tài khoản và mật khẩu
+    UI->>SYS: Gửi thông tin đăng nhập
+    SYS->>DB: Kiểm tra tài khoản
+    DB-->>SYS: Trả về thông tin tài xế
+
+    alt Đăng nhập hợp lệ
+        SYS-->>UI: Đăng nhập thành công
+        UI-->>TX: Hiển thị trang tài xế
+
+        TX->>UI: Chọn cập nhật thông tin
+        UI->>SYS: Gửi thông tin cập nhật
+        SYS->>SYS: Kiểm tra dữ liệu
+
+        alt Dữ liệu hợp lệ
+            SYS->>DB: Cập nhật thông tin tài xế và xe
+            DB-->>SYS: Cập nhật thành công
+            SYS-->>UI: Thông báo cập nhật thành công
+            UI-->>TX: Hiển thị thông tin mới
+        else Dữ liệu không hợp lệ
+            SYS-->>UI: Thông báo lỗi
+            UI-->>TX: Yêu cầu nhập lại thông tin
+        end
+
+    else Đăng nhập không hợp lệ
+        SYS-->>UI: Thông báo đăng nhập thất bại
+        UI-->>TX: Yêu cầu nhập lại thông tin
+    end
+```
+
+### 6. BP-06
+
+```md
+### Sequence Diagram 06 – BP-06: Tìm tài xế phù hợp
+
+```mermaid
+sequenceDiagram
+    actor KH as Khách hàng
+    actor TX as Tài xế
+    participant SYS as Hệ thống
+    participant DB as CSDL
+
+    SYS->>DB: Lấy danh sách tài xế
+    DB-->>SYS: Trả về danh sách tài xế
+
+    SYS->>SYS: Kiểm tra trạng thái sẵn sàng
+    SYS->>SYS: Kiểm tra loại xe phù hợp
+
+    alt Có tài xế phù hợp
+        SYS->>TX: Gửi yêu cầu chuyến
+        SYS->>DB: Cập nhật trạng thái tìm tài xế
+        SYS-->>KH: Thông báo đang chờ tài xế phản hồi
+    else Không có tài xế phù hợp
+        SYS-->>KH: Thông báo không tìm được tài xế
+    end
+```
+
+### 7. BP-07
+
+```md
+### Sequence Diagram 07 – BP-07: Tiếp nhận và phân công chuyến
+
+```mermaid
+sequenceDiagram
+    actor KH as Khách hàng
+    actor TX as Tài xế
+    participant UI as Giao diện
+    participant SYS as Hệ thống
+    participant DB as CSDL
+
+    SYS->>TX: Gửi yêu cầu chuyến
+    TX->>UI: Xem thông tin chuyến
+
+    alt Tài xế nhận chuyến
+        TX->>UI: Chọn nhận chuyến
+        UI->>SYS: Gửi xác nhận nhận chuyến
+        SYS->>DB: Kiểm tra trạng thái tài xế
+
+        alt Tài xế vẫn sẵn sàng
+            SYS->>DB: Gán tài xế cho chuyến
+            DB-->>SYS: Gán tài xế thành công
+            SYS-->>TX: Xác nhận nhận chuyến
+            SYS-->>KH: Thông báo tài xế đã được phân công
+        else Tài xế không còn sẵn sàng
+            SYS-->>TX: Thông báo không thể nhận chuyến
+        end
+
+    else Tài xế từ chối
+        TX->>UI: Chọn từ chối chuyến
+        UI->>SYS: Gửi phản hồi từ chối
+        SYS->>SYS: Tiếp tục tìm tài xế khác
+        SYS->>DB: Cập nhật kết quả tìm tài xế
+        SYS-->>KH: Thông báo đang tìm tài xế khác
+    end
+```
+
+### 8. BP-08
+
+```md
+### Sequence Diagram 08 – BP-08: Thực hiện chuyến
+
+```mermaid
+sequenceDiagram
+    actor KH as Khách hàng
+    actor TX as Tài xế
+    participant UI as Giao diện
+    participant SYS as Hệ thống
+    participant DB as CSDL
+
+    TX->>UI: Cập nhật "Đã đến điểm đón"
+    UI->>SYS: Gửi trạng thái chuyến
+    SYS->>DB: Cập nhật trạng thái chuyến
+    DB-->>SYS: Cập nhật thành công
+    SYS-->>KH: Thông báo tài xế đã đến
+
+    TX->>UI: Cập nhật "Đã đón khách"
+    UI->>SYS: Gửi trạng thái chuyến
+    SYS->>DB: Cập nhật trạng thái chuyến
+    DB-->>SYS: Cập nhật thành công
+    SYS-->>KH: Thông báo đã đón khách
+
+    TX->>UI: Cập nhật "Đang di chuyển"
+    UI->>SYS: Gửi trạng thái chuyến
+    SYS->>DB: Cập nhật trạng thái chuyến
+    DB-->>SYS: Cập nhật thành công
+    SYS-->>KH: Cập nhật trạng thái chuyến
+
+    TX->>UI: Cập nhật "Hoàn thành"
+    UI->>SYS: Gửi trạng thái chuyến
+    SYS->>DB: Cập nhật trạng thái chuyến
+    DB-->>SYS: Cập nhật thành công
+    SYS-->>KH: Thông báo chuyến đã hoàn thành
+```
+
+### 9. BP-09
+
+```md
+### Sequence Diagram 09 – BP-09: Theo dõi chuyến
+
+```mermaid
+sequenceDiagram
+    actor KH as Khách hàng
+    participant UI as Giao diện
+    participant SYS as Hệ thống
+    participant DB as CSDL
+
+    KH->>UI: Chọn theo dõi chuyến
+    UI->>SYS: Yêu cầu trạng thái chuyến
+    SYS->>DB: Lấy thông tin chuyến
+    DB-->>SYS: Trả về trạng thái chuyến
+    SYS-->>UI: Trả về trạng thái hiện tại
+    UI-->>KH: Hiển thị trạng thái chuyến
+
+    loop Khi chuyến đang hoạt động
+        KH->>UI: Yêu cầu cập nhật trạng thái
+        UI->>SYS: Gửi yêu cầu cập nhật
+        SYS->>DB: Kiểm tra trạng thái mới
+        DB-->>SYS: Trả về trạng thái mới
+        SYS-->>UI: Cập nhật trạng thái chuyến
+        UI-->>KH: Hiển thị trạng thái mới
+    end
+
+    SYS-->>KH: Thông báo chuyến hoàn thành
+```
+
+### 10. BP-10
+
+```md
+### Sequence Diagram 10 – BP-10: Lưu lịch sử chuyến
+
+```mermaid
+sequenceDiagram
+    actor KH as Khách hàng
+    actor TX as Tài xế
+    participant UI as Giao diện
+    participant SYS as Hệ thống
+    participant DB as CSDL
+
+    TX->>UI: Cập nhật trạng thái "Hoàn thành"
+    UI->>SYS: Gửi trạng thái hoàn thành
+    SYS->>DB: Cập nhật thông tin chuyến
+    DB-->>SYS: Cập nhật thành công
+
+    SYS->>DB: Lưu thông tin lịch sử chuyến
+    DB-->>SYS: Lưu lịch sử thành công
+
+    SYS-->>KH: Thông báo chuyến hoàn thành
+
+    KH->>UI: Chọn xem lịch sử chuyến
+    UI->>SYS: Yêu cầu lịch sử chuyến
+    SYS->>DB: Lấy lịch sử chuyến
+    DB-->>SYS: Trả về danh sách lịch sử
+    SYS-->>UI: Hiển thị lịch sử
+    UI-->>KH: Xem lịch sử chuyến
+```
 ---
 
 # B7. FUNCTIONAL REQUIREMENT
