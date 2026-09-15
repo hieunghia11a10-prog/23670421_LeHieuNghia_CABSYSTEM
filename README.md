@@ -545,8 +545,6 @@ sequenceDiagram
 ```
 
 ### 2. BP-02
-
-```md
 ### Sequence Diagram 02 – BP-02: Đăng nhập khách hàng
 
 ```mermaid
