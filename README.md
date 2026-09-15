@@ -518,6 +518,30 @@ flowchart TD
     P --> Q
     Q --> R
 ```
+### Sequence Diagram 01 – BP-01: Đăng ký tài khoản khách hàng
+
+```mermaid
+sequenceDiagram
+    actor KH as Khách hàng
+    participant UI as Giao diện
+    participant SYS as Hệ thống
+    participant DB as CSDL
+
+    KH->>UI: Nhập thông tin đăng ký
+    UI->>SYS: Gửi thông tin đăng ký
+    SYS->>SYS: Kiểm tra thông tin hợp lệ
+    SYS->>DB: Kiểm tra tài khoản đã tồn tại
+    DB-->>SYS: Trả về kết quả kiểm tra
+
+    alt Thông tin hợp lệ và chưa tồn tại
+        SYS->>DB: Tạo tài khoản khách hàng
+        DB-->>SYS: Tạo tài khoản thành công
+        SYS-->>UI: Thông báo đăng ký thành công
+        UI-->>KH: Hiển thị kết quả
+    else Thông tin không hợp lệ hoặc tài khoản đã tồn tại
+        SYS-->>UI: Thông báo lỗi
+        UI-->>KH: Yêu cầu nhập lại thông tin
+    end
 
 ---
 
