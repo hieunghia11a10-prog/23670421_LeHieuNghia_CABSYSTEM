@@ -542,7 +542,7 @@ sequenceDiagram
         SYS-->>UI: Thông báo lỗi
         UI-->>KH: Yêu cầu nhập lại thông tin
     end
-
+```
 ---
 
 # B7. FUNCTIONAL REQUIREMENT
