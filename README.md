@@ -570,8 +570,6 @@ sequenceDiagram
 ```
 
 ### 3. BP-03
-
-```md
 ### Sequence Diagram 03 – BP-03: Cập nhật thông tin khách hàng
 
 ```mermaid
@@ -604,8 +602,6 @@ sequenceDiagram
 ```
 
 ### 4. BP-04
-
-```md
 ### Sequence Diagram 04 – BP-04: Tạo yêu cầu đặt xe
 
 ```mermaid
@@ -633,8 +629,6 @@ sequenceDiagram
 ```
 
 ### 5. BP-05
-
-```md
 ### Sequence Diagram 05 – BP-05: Đăng nhập và quản lý tài xế
 
 ```mermaid
@@ -674,8 +668,6 @@ sequenceDiagram
 ```
 
 ### 6. BP-06
-
-```md
 ### Sequence Diagram 06 – BP-06: Tìm tài xế phù hợp
 
 ```mermaid
@@ -701,8 +693,6 @@ sequenceDiagram
 ```
 
 ### 7. BP-07
-
-```md
 ### Sequence Diagram 07 – BP-07: Tiếp nhận và phân công chuyến
 
 ```mermaid
@@ -740,8 +730,6 @@ sequenceDiagram
 ```
 
 ### 8. BP-08
-
-```md
 ### Sequence Diagram 08 – BP-08: Thực hiện chuyến
 
 ```mermaid
@@ -778,8 +766,6 @@ sequenceDiagram
 ```
 
 ### 9. BP-09
-
-```md
 ### Sequence Diagram 09 – BP-09: Theo dõi chuyến
 
 ```mermaid
@@ -809,8 +795,6 @@ sequenceDiagram
 ```
 
 ### 10. BP-10
-
-```md
 ### Sequence Diagram 10 – BP-10: Lưu lịch sử chuyến
 
 ```mermaid
