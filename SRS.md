@@ -7,16 +7,6 @@
 **Doanh nghiệp:** Công ty ABC
 **Thời gian xây dựng và triển khai:** 7 tuần
 
-## Ghi chú hiệu đính
-
-Bản này rà soát lại file gốc theo đúng đoạn yêu cầu khách hàng gốc và sửa 3 nhóm vấn đề:
-
-1. **Trùng mã BR giữa hai tầng khái niệm.** Bản gốc dùng `BR-01…BR-09` cho *Business Objective* (B3) rồi dùng lại `BR-01…BR-26` cho *Business Requirement* (B5) — hai khái niệm khác nhau nhưng cùng một dải mã, gây sai khi truy vết. Bản này đổi B3 sang mã **`BO-`** (Business Objective), giữ nguyên `BR-` cho Business Requirement.
-2. **Bổ sung các chi tiết có trong yêu cầu gốc nhưng bị bỏ sót**: thời gian dự kiến tài xế đến (ETA), báo cáo vận hành cho ban giám đốc (số chuyến, doanh thu, tỷ lệ hoàn thành/hủy, hiệu quả tài xế), và quy tắc phân quyền giữa Nhân viên vận hành và Quản trị viên hệ thống.
-3. **Hoàn thiện bảng truy vết**: Thanh toán, đánh giá tài xế và báo cáo vận hành có trong yêu cầu khách hàng nhưng bị loại khỏi MVP mà không được ghi nhận lại ở bảng truy vết B13 của bản gốc. Bản này thêm một bảng truy vết riêng cho các yêu cầu ngoài MVP để không có yêu cầu nào "biến mất" khỏi hồ sơ dự án.
-
-Toàn bộ nội dung đã đúng theo yêu cầu khách hàng (đăng ký/đăng nhập, đặt xe, tìm và phân công tài xế, thực hiện chuyến, theo dõi, lịch sử, MVP 2 module trong 7 tuần) được giữ nguyên.
-
 ---
 
 # 0. YÊU CẦU KHÁCH HÀNG
